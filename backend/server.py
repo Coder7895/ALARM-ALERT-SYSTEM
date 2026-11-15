@@ -410,7 +410,7 @@ class SociothonHandler(http.server.SimpleHTTPRequestHandler):
             self._send_json({"ok": True, "total": len(acc_copy), "accounts": acc_copy})
             return
 
-        if path == "/api/fire-state":
+        if path in ["/api/fire-state", "/api/fire/status"]:
             now_ts = time.time()
             device_id = (qs.get("deviceId") or [""])[0].strip()
             house_key = (qs.get("houseKey") or [""])[0].strip()
@@ -461,7 +461,7 @@ class SociothonHandler(http.server.SimpleHTTPRequestHandler):
             )
             return
 
-        if path == "/api/hospital-state":
+        if path in ["/api/hospital-state", "/api/hospital/status"]:
             now_ts = time.time()
             with state_lock:
                 snapshot = dict(hospital_state)
