@@ -884,8 +884,218 @@ class handler(SociothonHandler):
     pass
 
 Handler = handler
-app = handler
-application = handler
+
+
+def app(environ, start_response):
+    """WSGI application callable for Vercel / Cloud Functions."""
+    path = environ.get("PATH_INFO", "/") or "/"
+    method = environ.get("REQUEST_METHOD", "GET").upper()
+    query_string = environ.get("QUERY_STRING", "")
+    qs = urllib.parse.parse_qs(query_string)
+
+    headers = [
+        ("Access-Control-Allow-Origin", "*"),
+        ("Access-Control-Allow-Methods", "GET, POST, OPTIONS"),
+        ("Access-Control-Allow-Headers", "Content-Type, Authorization"),
+    ]
+
+    if method == "OPTIONS":
+        start_response("200 OK", headers)
+        return [b""]
+
+    # Parse JSON body for POST requests
+    body = {}
+    if method == "POST":
+        try:
+            content_length = int(environ.get("CONTENT_LENGTH", 0) or 0)
+            if content_length > 0:
+                raw_body = environ["wsgi.input"].read(content_length)
+                body = json.loads(raw_body.decode("utf-8"))
+        except Exception:
+            body = {}
+
+    # 1. API: Database accounts whitelist
+    if path == "/api/auth/database":
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        acc_copy = [dict(a) for a in house_accounts_list]
+        return [json.dumps({"ok": True, "total": len(acc_copy), "accounts": acc_copy}).encode("utf-8")]
+
+    # 2. API: Auth verification
+    if path == "/api/auth/verify":
+        headers.append(("Content-Type", "application/json"))
+        ident = str(body.get("username") or body.get("email") or body.get("id") or "").strip()
+        norm = normalize_identity(ident)
+        pw = str(body.get("password") or "")
+        if not norm:
+            start_response("400 Bad Request", headers)
+            return [json.dumps({"ok": False, "error": "MISSING_USERNAME", "message": "Username is required."}).encode("utf-8")]
+        acc = house_accounts_by_identity.get(norm) or house_accounts_by_email.get(norm)
+        if not acc:
+            start_response("403 Forbidden", headers)
+            return [json.dumps({
+                "ok": False,
+                "error": "ACCESS_DENIED",
+                "message": f"Access Denied: '{ident}' is not among the authorized accounts."
+            }).encode("utf-8")]
+        valid_passwords = [str(acc.get("password", ""))] + [str(p) for p in acc.get("altPasswords", [])]
+        if pw and pw not in valid_passwords:
+            start_response("401 Unauthorized", headers)
+            return [json.dumps({
+                "ok": False,
+                "error": "INVALID_PASSWORD",
+                "message": f"Incorrect password for '{ident}'."
+            }).encode("utf-8")]
+        user_data = dict(acc)
+        user_data.pop("password", None)
+        user_data.pop("altPasswords", None)
+        start_response("200 OK", headers)
+        return [json.dumps({"ok": True, "user": user_data}).encode("utf-8")]
+
+    # 3. API: Fire alert status & trigger
+    if path in ["/api/fire-state", "/api/fire/status"]:
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        with state_lock:
+            snap = dict(fire_state)
+        return [json.dumps(snap).encode("utf-8")]
+
+    if path == "/api/fire-trigger" and method == "POST":
+        now_ts = time.time()
+        with state_lock:
+            fire_state["active"] = True
+            fire_state["id"] = body.get("id") or f"FIRE-{int(now_ts) % 10000}"
+            fire_state["x"] = float(body.get("x", -6.8))
+            fire_state["z"] = float(body.get("z", 4.8))
+            fire_state["originLabel"] = body.get("originLabel") or "House No. 1"
+            fire_state["houseKey"] = body.get("houseKey")
+            fire_state["cause"] = body.get("cause") or "Fire Emergency"
+            fire_state["time"] = body.get("time") or time.strftime("%H:%M:%S")
+            fire_state["notifiedHouses"] = body.get("notifiedHouses") or []
+            fire_state["updatedAt"] = now_ts
+            snap = dict(fire_state)
+        broadcast_notification_event("fire_alert", snap)
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        return [json.dumps({"ok": True, "fire": snap}).encode("utf-8")]
+
+    if path in ["/api/fire-reset", "/api/fire/reset"] and method == "POST":
+        now_ts = time.time()
+        with state_lock:
+            fire_state["active"] = False
+            fire_state["id"] = None
+            fire_state["originLabel"] = ""
+            fire_state["notifiedHouses"] = []
+            fire_state["updatedAt"] = now_ts
+            snap = dict(fire_state)
+        broadcast_notification_event("fire_reset", snap)
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        return [json.dumps({"ok": True, "fire": snap}).encode("utf-8")]
+
+    # 4. API: Hospital alert status & trigger
+    if path in ["/api/hospital-state", "/api/hospital/status"]:
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        with state_lock:
+            snap = dict(hospital_state)
+        return [json.dumps(snap).encode("utf-8")]
+
+    if path == "/api/hospital-trigger" and method == "POST":
+        now_ts = time.time()
+        with state_lock:
+            hospital_state["active"] = True
+            hospital_state["id"] = body.get("id") or f"HOSP-{int(now_ts) % 10000}"
+            hospital_state["x"] = float(body.get("x", -3.8))
+            hospital_state["z"] = float(body.get("z", 3.2))
+            hospital_state["houseKey"] = body.get("houseKey") or "house-13"
+            hospital_state["houseName"] = body.get("houseName") or "House No. 13"
+            hospital_state["villageName"] = body.get("villageName") or "District 4 · South-West House Zone"
+            hospital_state["exactAddress"] = body.get("exactAddress") or "House No. 13, Plot #13, Lane 1"
+            hospital_state["gps"] = body.get("gps") or "17.4126° N, 78.4391° E"
+            hospital_state["injuryType"] = body.get("injuryType") or "Severe Injury / Trauma"
+            hospital_state["reporter"] = body.get("reporter") or "Resident — House No. 13"
+            hospital_state["acknowledgedBy"] = None
+            hospital_state["time"] = body.get("time") or time.strftime("%H:%M:%S")
+            hospital_state["updatedAt"] = now_ts
+            snap = dict(hospital_state)
+        broadcast_notification_event("hospital_alert", snap)
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        return [json.dumps({"ok": True, "hospital": snap}).encode("utf-8")]
+
+    if path in ["/api/hospital-reset", "/api/hospital/reset"] and method == "POST":
+        now_ts = time.time()
+        with state_lock:
+            hospital_state["active"] = False
+            hospital_state["id"] = None
+            hospital_state["acknowledgedBy"] = body.get("acknowledgedBy") or "District Civil Hospital Command"
+            hospital_state["updatedAt"] = now_ts
+            snap = dict(hospital_state)
+        broadcast_notification_event("hospital_reset", snap)
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        return [json.dumps({"ok": True, "hospital": snap}).encode("utf-8")]
+
+    # 5. API: Complaints
+    if path == "/api/complaints":
+        headers.append(("Content-Type", "application/json"))
+        if method == "POST":
+            with state_lock:
+                complaint_id = f"CMP-{int(time.time() * 1000) % 1000000}"
+                entry = {
+                    "id": complaint_id,
+                    "type": body.get("type", "Civic Issue"),
+                    "description": body.get("description", ""),
+                    "location": body.get("location", "District 4"),
+                    "houseNumber": body.get("houseNumber"),
+                    "status": "Pending",
+                    "createdAt": time.strftime("%Y-%m-%d %H:%M:%S")
+                }
+                complaints_list.append(entry)
+                save_complaints_to_disk()
+            start_response("200 OK", headers)
+            return [json.dumps({"ok": True, "complaint": entry}).encode("utf-8")]
+        else:
+            start_response("200 OK", headers)
+            return [json.dumps({"ok": True, "complaints": complaints_list}).encode("utf-8")]
+
+    # 6. API: Connected Mobiles
+    if path == "/api/mobiles":
+        headers.append(("Content-Type", "application/json"))
+        start_response("200 OK", headers)
+        with state_lock:
+            snap = dict(connected_mobiles)
+        return [json.dumps({"ok": True, "mobiles": list(snap.values())}).encode("utf-8")]
+
+    # 7. Static File Delivery
+    clean_path = path.lstrip("/") or "index.html"
+    file_path = os.path.join(ROOT_DIR, clean_path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        content_type = "text/html"
+        if file_path.endswith(".js"): content_type = "application/javascript"
+        elif file_path.endswith(".css"): content_type = "text/css"
+        elif file_path.endswith(".json"): content_type = "application/json"
+        elif file_path.endswith(".png"): content_type = "image/png"
+        elif file_path.endswith(".jpg") or file_path.endswith(".jpeg"): content_type = "image/jpeg"
+        elif file_path.endswith(".svg"): content_type = "image/svg+xml"
+        headers.append(("Content-Type", content_type))
+        start_response("200 OK", headers)
+        with open(file_path, "rb") as f:
+            return [f.read()]
+
+    index_file = os.path.join(ROOT_DIR, "index.html")
+    if os.path.exists(index_file):
+        headers.append(("Content-Type", "text/html; charset=utf-8"))
+        start_response("200 OK", headers)
+        with open(index_file, "rb") as f:
+            return [f.read()]
+
+    start_response("404 Not Found", headers)
+    return [b"Not Found"]
+
+
+application = app
 
 
 if __name__ == "__main__":
