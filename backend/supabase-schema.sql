@@ -151,7 +151,9 @@ values
   ('house31.emerrr@gmail.com', 'Resident — House No. 31', 'citizen', 'house-31', 'House No. 31', true),
   ('house32.emerrr@gmail.com', 'Resident — House No. 32', 'citizen', 'house-32', 'House No. 32', true),
   -- Department and Authority Whitelist
+  ('admin.emerrr@gmail.com', 'Municipal Administrator', 'municipality', 'municipality', 'Municipality Fire Command', true),
   ('admin@emerrr.gov.in', 'Municipal Administrator', 'municipality', 'municipality', 'Municipality Fire Command', true),
+  ('hospital.emerrr@gmail.com', 'District Civil Hospital Command', 'hospital', 'hospitals', 'District Civil Hospital', true),
   ('hospital@emerrr.gov.in', 'District Civil Hospital Command', 'hospital', 'hospitals', 'District Civil Hospital', true),
 on conflict (email) do update set
   full_name = excluded.full_name,

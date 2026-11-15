@@ -155,31 +155,57 @@ def load_house_accounts_database():
                             house_accounts_by_identity[f"house-{h_num}"] = acc
                             house_accounts_by_identity[f"h{h_num}"] = acc
 
-                    # Add department and admin accounts
+                    # Add department and admin accounts (with dedicated Gmail and username IDs)
                     admin_accounts = [
                         {
                             "username": "admin",
-                            "aliasUsernames": ["municipality", "administrator", "admin"],
-                            "email": "admin@emerrr.gov.in",
-                            "aliasEmails": ["officer@emerrr.gov.in"],
+                            "aliasUsernames": [
+                                "admin",
+                                "administrator",
+                                "municipality",
+                                "municipal administrator",
+                                "admin.emerrr@gmail.com",
+                                "admin@gmail.com",
+                                "admin@emerrr.gov.in"
+                            ],
+                            "email": "admin.emerrr@gmail.com",
+                            "aliasEmails": [
+                                "admin@gmail.com",
+                                "admin@emerrr.gov.in",
+                                "officer@emerrr.gov.in"
+                            ],
                             "password": "1111",
-                            "altPasswords": ["water123", "waterrrr2026", "emerrr2026"],
+                            "altPasswords": ["water123", "waterrrr2026", "emerrr2026", "admin123"],
                             "role": "municipality",
                             "residentName": "Municipal Administrator",
                             "systemId": "MUN-ADMIN-001",
-                            "dept": "District 4 Hydrology & Public Health Sentinel"
+                            "dept": "District 4 Emergency & Public Safety Command",
+                            "houseName": "Municipality Fire Command"
                         },
                         {
                             "username": "hospital",
-                            "aliasUsernames": ["hospital command", "civil hospital", "district hospital"],
-                            "email": "hospital@emerrr.gov.in",
-                            "aliasEmails": [],
+                            "aliasUsernames": [
+                                "hospital",
+                                "hospital command",
+                                "civil hospital",
+                                "district civil hospital",
+                                "district hospital",
+                                "hospital.emerrr@gmail.com",
+                                "hospital@gmail.com",
+                                "hospital@emerrr.gov.in"
+                            ],
+                            "email": "hospital.emerrr@gmail.com",
+                            "aliasEmails": [
+                                "hospital@gmail.com",
+                                "hospital@emerrr.gov.in"
+                            ],
                             "password": "1111",
-                            "altPasswords": ["hosp123"],
+                            "altPasswords": ["hosp123", "emerrr2026", "hospital123"],
                             "role": "hospital",
                             "residentName": "District Civil Hospital Command",
                             "systemId": "HOSP-CMD-001",
-                            "facility": "District Civil Hospital"
+                            "facility": "District Civil Hospital",
+                            "houseName": "District Civil Hospital"
                         }
                     ]
                     for adm in admin_accounts:

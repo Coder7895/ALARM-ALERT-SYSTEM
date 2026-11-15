@@ -1081,25 +1081,25 @@
 
     var mobAdmin = {
       username: 'admin',
-      email: 'admin@emerrr.gov.in',
+      email: 'admin.emerrr@gmail.com',
       password: '1111',
-      altPasswords: ['water123', 'waterrrr2026', 'emerrr2026'],
+      altPasswords: ['water123', 'waterrrr2026', 'emerrr2026', 'admin123'],
       role: 'municipality',
       residentName: 'Municipal Administrator'
     };
-    ['admin', 'municipality', 'administrator', 'admin@emerrr.gov.in'].forEach(function(k){
+    ['admin', 'municipality', 'administrator', 'municipal administrator', 'admin.emerrr@gmail.com', 'admin@gmail.com', 'admin@emerrr.gov.in'].forEach(function(k){
       window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(k)] = mobAdmin;
     });
 
     var mobHosp = {
       username: 'hospital',
-      email: 'hospital@emerrr.gov.in',
+      email: 'hospital.emerrr@gmail.com',
       password: '1111',
-      altPasswords: ['hosp123', 'emerrr2026'],
+      altPasswords: ['hosp123', 'emerrr2026', 'hospital123'],
       role: 'hospital',
       residentName: 'District Civil Hospital Command'
     };
-    ['hospital', 'hospital command', 'hospital@emerrr.gov.in'].forEach(function(k){
+    ['hospital', 'hospital command', 'district civil hospital', 'civil hospital', 'hospital.emerrr@gmail.com', 'hospital@gmail.com', 'hospital@emerrr.gov.in'].forEach(function(k){
       window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(k)] = mobHosp;
     });
 

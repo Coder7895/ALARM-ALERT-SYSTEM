@@ -1118,5 +1118,72 @@
       "house32@gmail.com"
     ],
     "loginDisplay": "Username: House 32 Murali Krishna · Pass: 1111"
+  },
+  {
+    "accountType": "authority",
+    "systemId": "MUN-ADMIN-001",
+    "role": "municipality",
+    "residentName": "Municipal Administrator",
+    "dept": "District 4 Emergency & Public Safety Command",
+    "houseKey": "municipality",
+    "houseName": "Municipality Fire Command",
+    "username": "admin",
+    "aliasUsernames": [
+      "admin",
+      "administrator",
+      "municipality",
+      "municipal administrator",
+      "admin.emerrr@gmail.com",
+      "admin@gmail.com",
+      "admin@emerrr.gov.in"
+    ],
+    "email": "admin.emerrr@gmail.com",
+    "aliasEmails": [
+      "admin@gmail.com",
+      "admin@emerrr.gov.in",
+      "officer@emerrr.gov.in"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "water123",
+      "waterrrr2026",
+      "emerrr2026",
+      "admin123"
+    ],
+    "loginDisplay": "Username: admin · Gmail: admin.emerrr@gmail.com · Passkey: 1111",
+    "notes": "👑 Official Municipal Administrator & Emergency Dispatch Command Desk"
+  },
+  {
+    "accountType": "hospital",
+    "systemId": "HOSP-CMD-001",
+    "role": "hospital",
+    "residentName": "District Civil Hospital Command",
+    "facility": "District Civil Hospital",
+    "houseKey": "hospitals",
+    "houseName": "District Civil Hospital",
+    "username": "hospital",
+    "aliasUsernames": [
+      "hospital",
+      "hospital command",
+      "civil hospital",
+      "district civil hospital",
+      "district hospital",
+      "hospital.emerrr@gmail.com",
+      "hospital@gmail.com",
+      "hospital@emerrr.gov.in"
+    ],
+    "email": "hospital.emerrr@gmail.com",
+    "aliasEmails": [
+      "hospital@gmail.com",
+      "hospital@emerrr.gov.in"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "hosp123",
+      "emerrr2026",
+      "hospital123"
+    ],
+    "loginDisplay": "Username: hospital · Gmail: hospital.emerrr@gmail.com · Passkey: 1111",
+    "notes": "🏥 Official Regional Emergency Hospital Trauma Desk & Injury Buzzer Console"
   }
 ]
