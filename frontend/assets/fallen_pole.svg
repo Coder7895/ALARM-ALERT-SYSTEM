@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="elecGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#141416" />
+      <stop offset="100%" stop-color="#09090b" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#elecGrad)"/>
+
+  <!-- Street ground -->
+  <rect x="0" y="380" width="800" height="120" fill="#18181b" stroke="#27272a" stroke-width="1"/>
+  <line x1="0" y1="380" x2="800" y2="380" stroke="#f59e0b" stroke-width="3" stroke-dasharray="16 16"/>
+
+  <!-- Snapped Concrete Utility Pole (Angled fallen) -->
+  <g transform="translate(180, 390) rotate(-62)">
+    <rect x="-18" y="-360" width="36" height="360" rx="3" fill="#3f3f46" stroke="#71717a" stroke-width="2"/>
+    <!-- Crossbar -->
+    <rect x="-90" y="-340" width="180" height="16" fill="#27272a" stroke="#a1a1aa" stroke-width="1.5"/>
+    <!-- Insulators -->
+    <rect x="-80" y="-324" width="14" height="24" fill="#f43f5e"/>
+    <rect x="66" y="-324" width="14" height="24" fill="#f43f5e"/>
+    <rect x="-7" y="-324" width="14" height="24" fill="#f43f5e"/>
+  </g>
+
+  <!-- Broken Stumproot on ground -->
+  <rect x="160" y="375" width="45" height="35" rx="2" fill="#27272a" stroke="#71717a" stroke-width="2"/>
+  <path d="M 160 375 L 180 360 L 205 375" fill="#18181b" stroke="#ef4444" stroke-width="2"/>
+
+  <!-- Dangling Snapped Live High-Voltage Wires touching street -->
+  <path d="M 440 120 Q 480 280 520 380 Q 560 395 680 390" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 450 140 Q 510 320 540 385 Q 580 400 750 395" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 420 100 Q 360 220 330 380" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Electrical Spark Arcs at Ground Contact Point -->
+  <g transform="translate(525, 380)">
+    <polygon points="0,-15 8,-3 3,0 12,12 -2,3 2,0" fill="#67e8f9" stroke="#ffffff" stroke-width="1"/>
+    <circle cx="0" cy="0" r="18" fill="#38bdf8" fill-opacity="0.3"/>
+    <circle cx="0" cy="0" r="32" fill="#38bdf8" fill-opacity="0.15"/>
+  </g>
+  <g transform="translate(545, 385)">
+    <polygon points="0,-18 10,-4 4,0 15,15 -2,4 2,0" fill="#fef08a" stroke="#ffffff" stroke-width="1"/>
+  </g>
+
+  <!-- Hazard Badge -->
+  <rect x="24" y="24" width="370" height="64" rx="4" fill="#000000" fill-opacity="0.85" stroke="#ef4444" stroke-width="1"/>
+  <text x="36" y="44" fill="#ef4444" font-family="monospace" font-size="12" font-weight="bold">⚡ CITIZEN EVIDENCE: DOWNED 11KV POWER POLE</text>
+  <text x="36" y="60" fill="#FFFFFF" font-family="monospace" font-size="11">LOCATION: House No. 21 · Sector 3 Corridor</text>
+  <text x="36" y="76" fill="#fbbf24" font-family="monospace" font-size="10">ELECTROCUTION RISK · ROADWAYS BLOCKED · GRID CUT REQ'D</text>
+
+  <rect x="540" y="420" width="236" height="48" rx="4" fill="#000" fill-opacity="0.85" stroke="#444" stroke-width="1"/>
+  <text x="552" y="440" fill="#f59e0b" font-family="monospace" font-size="11">EVIDENCE #CMP-1045-ELEC</text>
+  <text x="552" y="456" fill="#888" font-family="monospace" font-size="9">POWER GRID DISENGAGE ACTIVE</text>
+</svg>

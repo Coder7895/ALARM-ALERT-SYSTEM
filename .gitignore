@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Sensitive, Personal & Local Artifacts
+author_photo.jpg
+posters/
+*.log
+.env
+.env.local
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+
+# Root loose development copies (Canonical project is organized in frontend/ and backend/)
+/assets/
+/index.html
+/mobile.html
+/server.py
+/house_accounts.json
+/complaints.json
+/update_house_accounts.py
+/sw.js
+/qrcode.min.js
+/netlify.toml
+/supabase-config.js
+/supabase-schema.sql

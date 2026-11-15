@@ -1,0 +1,2929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>EMERRR // Mobile House Sign-In &amp; 500m Fire Alarm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans+Telugu:wght@400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #000000;
+      --surface: #0A0A0A;
+      --border: rgba(255,255,255,0.22);
+      --border-strong: rgba(255,255,255,0.72);
+      --text: #FFFFFF;
+      --muted: #A3A3A3;
+      --serif: 'Fraunces', 'Noto Sans Telugu', Georgia, serif;
+      --sans: 'Space Grotesk', 'Noto Sans Telugu', system-ui, -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', 'Noto Sans Telugu', monospace;
+    }
+    *{ box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body{
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+    body.is-alarm-strobe{
+      animation: monoStrobe 0.65s infinite steps(2, start);
+    }
+    @keyframes monoStrobe{
+      0%{ background: #000000; color: #FFFFFF; }
+      50%{ background: #FFFFFF; color: #000000; }
+    }
+    body.is-alarm-strobe .card{
+      background: #000000;
+      color: #FFFFFF;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 36px rgba(255,255,255,0.85);
+    }
+
+    .mobile-shell{
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 18px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .topbar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      gap: 10px;
+    }
+    .brand{
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .sync-pill{
+      font-family: var(--mono);
+      font-size: 0.60rem;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 99px;
+      border: 1px solid var(--border-strong);
+      background: #0A0A0A;
+      color: #FFF;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .sync-dot{
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #FFF;
+      animation: pulseDot 1.4s infinite ease-in-out;
+    }
+    @keyframes pulseDot{
+      0%, 100%{ opacity: 0.35; }
+      50%{ opacity: 1; }
+    }
+    .topbar-right{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .lang-pill-group{
+      display: inline-flex;
+      border: 1px solid var(--border-strong);
+      border-radius: 99px;
+      overflow: hidden;
+      background: #000;
+    }
+    .lang-pill-btn{
+      background: transparent;
+      color: #A3A3A3;
+      border: none;
+      padding: 4px 8px;
+      font-family: var(--mono);
+      font-size: 0.60rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .lang-pill-btn.active{
+      background: #FFF;
+      color: #000;
+    }
+
+    .card{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .label-mono{
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .house-select, .mob-input{
+      width: 100%;
+      background: #000;
+      color: #FFF;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .mob-input:focus, .house-select:focus{
+      border-color: #FFF;
+      box-shadow: 0 0 12px rgba(255,255,255,0.25);
+    }
+
+    .btn-arm{
+      width: 100%;
+      background: #FFFFFF;
+      color: #000000;
+      border: 2px solid #FFFFFF;
+      border-radius: 12px;
+      padding: 15px 16px;
+      font-family: var(--mono);
+      font-size: 0.80rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.15s ease;
+    }
+    .btn-arm.armed{
+      background: #000000;
+      color: #FFFFFF;
+      border: 1px solid #FFFFFF;
+    }
+    .btn-fire-mob{
+      width: 100%;
+      background: #FFFFFF;
+      color: #000000;
+      border: 2px solid #FFFFFF;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: var(--sans);
+      font-size: 0.90rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(255,255,255,0.3);
+    }
+    .btn-secondary{
+      width: 100%;
+      background: transparent;
+      color: #FFFFFF;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-mini{
+      background: #000;
+      color: #FFF;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      cursor: pointer;
+    }
+
+    .status-hero{
+      border: 2px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 22px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 11px;
+      background: #050505;
+    }
+    .status-hero.ringing{
+      background: #FFFFFF;
+      color: #000000;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 40px rgba(255,255,255,0.75);
+    }
+    .status-hero.ringing .label-mono,
+    .status-hero.ringing .status-sub{
+      color: #000000;
+    }
+    .status-badge{
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 99px;
+      border: 1px solid #FFF;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .status-hero.ringing .status-badge{
+      background: #000;
+      color: #FFF;
+      border-color: #000;
+    }
+    .status-title{
+      font-family: var(--serif);
+      font-size: 1.65rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+    .status-sub{
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    .alarm-details{
+      width: 100%;
+      border-top: 1px solid rgba(0,0,0,0.2);
+      padding-top: 12px;
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      text-align: left;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+    }
+    .alarm-detail-box{
+      background: rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.22);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .btn-silence{
+      width: 100%;
+      background: #000000;
+      color: #FFFFFF;
+      border: 2px solid #000000;
+      border-radius: 10px;
+      padding: 13px;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .nearby-chips{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .nearby-chip{
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #000;
+      border: 1px solid var(--border);
+      color: #FFF;
+    }
+    .nearby-chip.is-self{
+      background: #FFF;
+      color: #000;
+      font-weight: 800;
+    }
+
+    .footer-note{
+      margin-top: auto;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Municipal Social Speaker Console */
+    .speaker-eq{
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 22px;
+      margin: 2px auto;
+    }
+    .speaker-bar{
+      width: 5px;
+      height: 6px;
+      border-radius: 3px;
+      background: currentColor;
+      transition: height 0.15s ease;
+    }
+    .status-hero.ringing .speaker-bar,
+    .speaker-eq.is-speaking .speaker-bar{
+      animation: eqBounce 0.65s infinite ease-in-out alternate;
+    }
+    .speaker-eq.is-speaking .speaker-bar:nth-child(2){ animation-delay: 0.12s; }
+    .speaker-eq.is-speaking .speaker-bar:nth-child(3){ animation-delay: 0.24s; }
+    .speaker-eq.is-speaking .speaker-bar:nth-child(4){ animation-delay: 0.36s; }
+    .speaker-eq.is-speaking .speaker-bar:nth-child(5){ animation-delay: 0.18s; }
+    @keyframes eqBounce{
+      0%{ height: 5px; opacity: 0.45; }
+      100%{ height: 22px; opacity: 1; }
+    }
+    .speaker-msg-display{
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.06);
+      font-family: var(--sans);
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.45;
+      text-align: left;
+      word-break: break-word;
+    }
+    .status-hero.ringing .speaker-msg-display{
+      background: #000000;
+      color: #FFFFFF;
+      border-color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <main class="mobile-shell">
+    <header class="topbar">
+      <div>
+        <div class="brand">EMERRR</div>
+        <div class="label-mono" id="mob-brand-sub" style="margin-top:2px;">1-TO-1 HOUSE MOBILE ALARM</div>
+      </div>
+      <div class="topbar-right">
+        <div class="lang-pill-group" role="group" aria-label="Language Switcher">
+          <button type="button" class="lang-pill-btn active" id="mob-lang-en" onclick="setMobileLanguage('en')">EN</button>
+          <button type="button" class="lang-pill-btn" id="mob-lang-te" onclick="setMobileLanguage('te')">తెలుగు</button>
+        </div>
+        <div class="sync-pill" id="sync-pill">
+          <span class="sync-dot"></span>
+          <span id="sync-text">CONNECTING...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- STEP 0: MUNICIPAL SOCIAL SPEAKER QR MODE (?mode=speaker) -->
+    <div id="speaker-mode-console" style="display:none; flex-direction:column; gap:14px;">
+      <section class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <div class="label-mono" id="mob-spk-mode-tag">MUNICIPALITY SOCIAL SPEAKER</div>
+            <div style="font-size:1.05rem; font-weight:800; color:#FFF;" id="mob-spk-unit-title">📢 Public Mobile PA Receiver</div>
+          </div>
+          <button type="button" class="btn-mini" id="btn-exit-speaker-mode" onclick="exitSpeakerModeToHouse()">House Mode</button>
+        </div>
+        <div class="label-mono" id="mob-spk-scope-text" style="color:var(--muted);">
+          Target: All 32 Houses (District 4 Public Broadcast)
+        </div>
+      </section>
+
+      <button type="button" class="btn-arm" id="btn-arm-mobile-speaker" onclick="armMobileSpeaker()">
+        🔊 TAP TO ACTIVATE MOBILE SPEAKER
+      </button>
+
+      <section class="status-hero" id="speaker-status-hero">
+        <span class="status-badge" id="mob-spk-badge">STANDBY · SPEAKER LISTENING</span>
+        <div class="speaker-eq" id="mob-spk-eq" aria-hidden="true">
+          <span class="speaker-bar"></span>
+          <span class="speaker-bar"></span>
+          <span class="speaker-bar"></span>
+          <span class="speaker-bar"></span>
+          <span class="speaker-bar"></span>
+        </div>
+        <h1 class="status-title" id="mob-spk-title">Ready For Municipal Broadcast</h1>
+        <div class="speaker-msg-display" id="mob-spk-live-text">
+          Waiting for informing text fed from the Municipality Social Speaker Portal...
+        </div>
+        <p class="status-sub" id="mob-spk-meta" style="font-family:var(--mono); font-size:0.70rem;">
+          Any text submitted by the Municipality will play out loud through this mobile speaker automatically.
+        </p>
+        <div style="display:flex; gap:8px; width:100%; flex-wrap:wrap; margin-top:4px;">
+          <button type="button" class="btn-silence" id="btn-mob-spk-repeat" style="flex:1; min-width:140px; margin-top:0;" onclick="repeatMobileSpeaker()">
+            🔁 SPEAK AGAIN
+          </button>
+          <button type="button" class="btn-secondary" id="btn-mob-spk-stop" style="flex:1; min-width:120px; background:#000; color:#FFF; border:1px solid #FFF;" onclick="stopMobileSpeakerSpeech()">
+            ⏹ STOP VOICE
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="label-mono" id="mob-spk-hist-title">📜 RECENT MUNICIPAL SPEAKER BROADCASTS</div>
+        <div id="mob-spk-history-list" style="display:flex; flex-direction:column; gap:8px; font-family:var(--mono); font-size:0.70rem; color:var(--muted);">
+          <div>No announcements received yet.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- STEP 0B: HOSPITAL ALERT QR SCAN MODE (?mode=hospital-alert) -->
+    <div id="hospital-alert-qr-console" style="display:none; flex-direction:column; gap:14px;">
+      <section class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <div class="label-mono" id="mob-hqr-tag">HOSPITAL ALERT QR // INSTANT INFORM</div>
+            <div style="font-size:1.05rem; font-weight:800; color:#FFF;" id="mob-hqr-house-title">House No. 13</div>
+          </div>
+          <button type="button" class="btn-mini" id="btn-exit-hqr-mode" onclick="exitHospitalQrToHouse()">House Mode</button>
+        </div>
+        <div class="label-mono" id="mob-hqr-loc-sub" style="color:var(--muted);">
+          District 4 · South-West House Zone
+        </div>
+      </section>
+
+      <section class="status-hero ringing" id="mob-hqr-hero">
+        <span class="status-badge" id="mob-hqr-badge">✅ HOSPITALS INFORMED</span>
+        <h1 class="status-title" id="mob-hqr-title">Hospitals Alerted For House No. 13</h1>
+        <p class="status-sub" id="mob-hqr-sub">
+          Exact house location &amp; buzzer signal sent to all regional hospitals.
+        </p>
+        <div class="alarm-details" id="mob-hqr-details" style="display:grid;"></div>
+        <button type="button" class="btn-silence" id="btn-mob-hqr-ring" onclick="triggerHospitalQrAgain()">
+          🚨 RING HOSPITAL BUZZER AGAIN
+        </button>
+        <button type="button" class="btn-secondary" id="btn-mob-hqr-clear" style="background:#000; color:#FFF; border:1px solid #000;" onclick="clearHospitalQrFromMobile()">
+          ✓ CLEAR HOSPITAL ALERT
+        </button>
+      </section>
+    </div>
+
+    <!-- STEP A: SIGN-IN GATE TO CONNECT 1 PHONE TO 1 HOUSE -->
+    <section class="card" id="signin-card">
+      <div class="label-mono" id="mob-signin-tag">RESIDENT SIGN-IN &middot; 1 PHONE = 1 HOUSE</div>
+      <h2 id="mob-signin-title" style="font-family:var(--serif); font-size:1.3rem; line-height:1.2;">Connect Your Phone to <span id="signin-house-heading">House No. 13</span></h2>
+      <p id="mob-signin-sub" style="font-size:0.80rem; color:var(--muted); line-height:1.45;">
+        Sign in to lock this phone to one house. Whenever a fire erupts at this house or <strong>any nearby house within 500m</strong>, this phone will immediately flash and ring.
+      </p>
+
+      <div>
+        <label class="label-mono" id="lbl-signin-house" for="signin-house-select" style="display:block; margin-bottom:5px;">Select House Number (QR Auto-Filled)</label>
+        <select id="signin-house-select" class="house-select"></select>
+      </div>
+      <div>
+        <label class="label-mono" id="lbl-signin-name" for="signin-name" style="display:block; margin-bottom:5px;">Resident Name</label>
+        <input id="signin-name" class="mob-input" type="text" placeholder="e.g. Venkatesh (House No. 13)" />
+      </div>
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+          <label class="label-mono" id="lbl-signin-email" for="signin-email" style="margin-bottom:0;">Resident House Username</label>
+          <span style="font-family:var(--mono); font-size:0.58rem; color:#888;">32 Fixed Houses</span>
+        </div>
+        <input id="signin-email" class="mob-input" type="text" list="supabase-mail-datalist" value="House 13 Venkatesh" placeholder="e.g. House 1 Prabakar or house1" oninput="updateMobileWhitelistBadge(this.value)" />
+        <datalist id="supabase-mail-datalist">
+          <!-- Populated dynamically with all 32 house usernames -->
+        </datalist>
+        <div id="mob-whitelist-badge" style="display:none; margin-top:5px; padding:4px 8px; border-radius:4px; font-family:var(--mono); font-size:0.62rem;"></div>
+      </div>
+      <div>
+        <label class="label-mono" id="lbl-signin-pass" for="signin-pass" style="display:block; margin-bottom:5px;">House Security Passkey (Default: 1111)</label>
+        <input id="signin-pass" class="mob-input" type="password" value="1111" placeholder="Enter passkey (1111)" />
+      </div>
+      <div>
+        <label class="label-mono" id="lbl-signin-phone" for="signin-phone" style="display:block; margin-bottom:5px;">Mobile Number / Resident ID</label>
+        <input id="signin-phone" class="mob-input" type="tel" value="9876543210" placeholder="10-digit mobile or ID" />
+      </div>
+
+      <button type="button" class="btn-arm" id="btn-signin-connect" onclick="signInAndConnectHouse()">
+        🔐 SIGN IN &amp; CONNECT PHONE TO HOUSE
+      </button>
+    </section>
+
+    <!-- STEP B: CONNECTED LIVE HOUSE ALARM CONSOLE -->
+    <div id="connected-console" style="display:none; flex-direction:column; gap:14px;">
+      <section class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div>
+            <div class="label-mono" id="lbl-signed-resident">SIGNED IN RESIDENT</div>
+            <div style="font-size:1.05rem; font-weight:800; color:#FFF;" id="paired-resident-banner">Resident &middot; House No. 13</div>
+          </div>
+          <button type="button" class="btn-mini" id="btn-switch-house" onclick="signOutMobileHouse()">Switch House</button>
+        </div>
+        <div class="label-mono" id="house-coords-text" style="color:var(--muted);">Coordinates: Loading...</div>
+      </section>
+
+      <button type="button" class="btn-arm" id="btn-arm-audio" onclick="armMobileAlarmAudio()">
+        🔊 TAP TO ARM SIREN AUDIO
+      </button>
+
+      <!-- 24/7 SLEEP GUARD & BACKGROUND ALARM STATUS CARD -->
+      <section class="card" id="card-sleep-guard" style="border:1px solid rgba(255,255,255,0.25); background:#060606;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+          <div class="label-mono" id="lbl-sleep-guard" style="color:#FFF; font-weight:800; display:flex; align-items:center; gap:6px;">
+            <span>🛡️</span> <span id="text-sleep-guard-title">24/7 SLEEP GUARD ACTIVE</span>
+          </div>
+          <button type="button" class="btn-mini" id="btn-toggle-wake-lock" onclick="toggleMobileWakeLock()" style="padding:4px 8px; font-size:0.65rem;">
+            📱 Keep Screen Awake: ON
+          </button>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+          <span class="nearby-chip" id="chip-wakelock" style="background:#FFF; color:#000; font-weight:800; font-size:0.64rem;">✓ SCREEN AWAKE: ON</span>
+          <span class="nearby-chip" id="chip-bg-audio" style="background:rgba(255,255,255,0.12); color:#FFF; font-size:0.64rem;">🔊 BACKGROUND AUDIO: ARMED</span>
+          <span class="nearby-chip" id="chip-notifications" style="background:rgba(255,255,255,0.12); color:#FFF; font-size:0.64rem; cursor:pointer;" onclick="requestAlarmNotifications()">🔔 LOCK-SCREEN ALERTS</span>
+        </div>
+        <p style="font-family:var(--sans); font-size:0.72rem; color:var(--muted); line-height:1.45; margin:0;" id="text-sleep-guard-desc">
+          Phone sleep protection is enabled. An active background media session &amp; screen wake-lock prevent your phone from sleeping or suspending alarms, ensuring the siren rings and vibrates even when screen is locked or asleep.
+        </p>
+        <button type="button" class="btn-secondary" id="btn-test-sleep-alarm" style="width:100%; margin-top:10px; background:rgba(255,255,255,0.08); border:1px solid #FFF; font-weight:700; font-size:0.72rem; padding:9px 12px; cursor:pointer;" onclick="testSleepAlarmCountdown()">
+          🔔 TEST BACKGROUND ALARM (LOCK PHONE IN 5 SECONDS)
+        </button>
+        <div id="test-sleep-status" style="font-family:var(--mono); font-size:0.68rem; color:#FFF; margin-top:6px; display:none; text-align:center;"></div>
+      </section>
+
+      <section class="status-hero" id="status-hero">
+        <span class="status-badge" id="status-badge">STANDBY · MONITORING 500M</span>
+        <h1 class="status-title" id="status-title">House Safe &amp; Monitored</h1>
+        <p class="status-sub" id="status-sub">
+          Listening for fire alarms at your house and every neighboring house within 500m.
+        </p>
+        <div class="alarm-details" id="alarm-details" style="display:none;"></div>
+        <!-- Origin House Photo (Displayed on Mobile when Fire Starts at House 1) -->
+        <div id="mob-fire-photo-box" style="display:none; margin: 12px 0; border: 1px solid #FFF; border-radius: 8px; overflow: hidden; background: #000; box-shadow: 0 4px 16px rgba(0,0,0,0.85);">
+          <img id="mob-fire-photo-img" src="./assets/house_1.jpg" alt="Fire Origin House Photo" style="width: 100%; max-height: 240px; object-fit: cover; display: block;" />
+          <div id="mob-fire-photo-caption" style="padding: 7px 10px; font-family: var(--mono); font-size: 0.65rem; color: #FFF; background: #111; border-top: 1px solid rgba(255,255,255,0.25); display: flex; justify-content: space-between; align-items: center;">
+            <span>📍 House No. 1 · Mandadam Road (GPS Geotagged)</span>
+            <span style="border: 1px solid #FFF; padding: 1px 5px; border-radius: 3px; font-size: 0.58rem; background: #FFF; color: #000; font-weight: 700;">GPS PHOTO</span>
+          </div>
+        </div>
+        <button type="button" class="btn-silence" id="btn-silence-siren" style="display:none;" onclick="silenceLocalSiren()">
+          🔇 SILENCE SIREN ON THIS PHONE
+        </button>
+      </section>
+
+      <section class="card">
+        <div class="label-mono" id="nearby-watch-title">📡 Nearby Houses Monitored (Within 500m)</div>
+        <div class="nearby-chips" id="nearby-watch-chips"></div>
+      </section>
+
+      <button type="button" class="btn-fire-mob" id="btn-mob-trigger-fire" onclick="triggerFireFromThisMobile()">
+        🔥 REPORT FIRE AT MY HOUSE NOW
+      </button>
+      <button type="button" class="btn-fire-mob" id="btn-mob-trigger-hospital" style="background:#000; color:#FFF; border:2px solid #FFF;" onclick="triggerHospitalInjuryFromMobile()">
+        🚑 SOMEONE INJURED — RING HOSPITAL BUZZER
+      </button>
+      <section class="card" id="mobile-hospital-card" style="display:none; border:2px solid #FFF;">
+        <div class="label-mono" id="mob-hosp-card-tag">HOSPITAL EMERGENCY BUZZER DISPATCH</div>
+        <div id="mob-hosp-card-title" style="font-family:var(--serif); font-size:1.18rem; font-weight:800; color:#FFF;"></div>
+        <div id="mob-hosp-card-details" style="font-family:var(--mono); font-size:0.70rem; line-height:1.5; color:var(--muted);"></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+          <button type="button" class="btn-secondary" id="btn-mob-ack-hospital" style="display:none; background:#FFF; color:#000; font-weight:800;" onclick="ackHospitalFromMobile()">
+            🚑 DISPATCH AMBULANCE &amp; ACKNOWLEDGE
+          </button>
+          <button type="button" class="btn-secondary" id="btn-mob-silence-hospital" style="display:none;" onclick="silenceLocalHospitalBuzzer()">
+            🔇 SILENCE HOSPITAL BUZZER
+          </button>
+          <button type="button" class="btn-secondary" id="btn-mob-clear-hospital" onclick="clearHospitalFromMobile()">
+            ✓ CLEAR INJURY EMERGENCY
+          </button>
+        </div>
+      </section>
+      <button type="button" class="btn-secondary" id="btn-mob-clear-fire" style="display:none;" onclick="clearFireFromThisMobile()">
+        ✓ RESOLVE / CLEAR ACTIVE FIRE
+      </button>
+      <button type="button" class="btn-secondary" id="btn-mob-test-ring" onclick="testLocalRing()">
+        🔔 TEST SIREN &amp; VIBRATION (1 SEC)
+      </button>
+    </div>
+
+    <footer class="footer-note" id="footer-note">
+      EMERRR // 1-TO-1 HOUSE MOBILE ALARM · STRICT MONOCHROME
+    </footer>
+  </main>
+
+  <script src="./supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // 0. Emerrr Service Worker Registration for Android Background & Sleep Notifications
+    var emerrrSwRegistration = null;
+    if('serviceWorker' in navigator){
+      window.addEventListener('load', function(){
+        navigator.serviceWorker.register('./sw.js', { scope: './' }).then(function(reg){
+          emerrrSwRegistration = reg;
+          console.log('✓ Emerrr Background Service Worker Active:', reg.scope);
+        }).catch(function(err){
+          console.warn('Service Worker registration note:', err);
+        });
+      });
+    }
+
+    var sbClient = null;
+    var sbFireChannel = null;
+    var sbAuthReady = false;
+    try{
+      var scfg = window.SUPABASE_CONFIG || {};
+      if(window.supabase && scfg.url && scfg.anonKey){
+        sbClient = window.supabase.createClient(scfg.url, scfg.anonKey);
+      }
+    }catch(e){}
+
+    var HOUSES = [
+      { key:'house-1', name:'House No. 1', x:-8.5, z:6.0 },
+      { key:'house-2', name:'House No. 2', x:8.6, z:-5.8 },
+      { key:'house-3', name:'House No. 3', x:-9.4, z:-3.1 },
+      { key:'house-4', name:'House No. 4', x:6.0, z:7.7 },
+      { key:'house-5', name:'House No. 5', x:-5.2, z:-9.0 },
+      { key:'house-6', name:'House No. 6', x:10.6, z:1.9 },
+      { key:'house-7', name:'House No. 7', x:-3.4, z:9.4 },
+      { key:'house-8', name:'House No. 8', x:3.6, z:-9.9 },
+      { key:'house-9', name:'House No. 9', x:8.5, z:-10.3 },
+      { key:'house-10', name:'House No. 10', x:-11.5, z:2.2 },
+      { key:'house-11', name:'House No. 11', x:7.8, z:4.4 },
+      { key:'house-12', name:'House No. 12', x:-10.6, z:-8.1 },
+      { key:'house-13', name:'House No. 13', x:-4.8, z:4.0 },
+      { key:'house-14', name:'House No. 14', x:11.0, z:-2.2 },
+      { key:'house-15', name:'House No. 15', x:-2.2, z:-5.6 },
+      { key:'house-16', name:'House No. 16', x:5.2, z:-3.5 },
+      { key:'house-17', name:'House No. 17', x:-6.9, z:1.0 },
+      { key:'house-18', name:'House No. 18', x:2.8, z:6.0 },
+      { key:'house-19', name:'House No. 19', x:0.2, z:-9.0 },
+      { key:'house-20', name:'House No. 20', x:11.8, z:6.5 },
+      { key:'house-21', name:'House No. 21', x:-7.8, z:-11.0 },
+      { key:'house-22', name:'House No. 22', x:4.3, z:10.3 },
+      { key:'house-23', name:'House No. 23', x:-1.7, z:12.0 },
+      { key:'house-24', name:'House No. 24', x:9.7, z:9.4 },
+      { key:'house-25', name:'House No. 25', x:-12.2, z:-4.4 },
+      { key:'house-26', name:'House No. 26', x:1.4, z:-12.0 },
+      { key:'house-27', name:'House No. 27', x:-5.6, z:11.9 },
+      { key:'house-28', name:'House No. 28', x:11.4, z:-7.2 },
+      { key:'house-29', name:'House No. 29', x:-9.5, z:9.5 },
+      { key:'house-30', name:'House No. 30', x:-7.8, z:-6.0 },
+      { key:'house-31', name:'House No. 31', x:5.9, z:-12.1 },
+      { key:'house-32', name:'House No. 32', x:0.3, z:9.7 }
+    ];
+
+    var SPECIAL_UNITS = [
+      { key:'municipality', name:'Municipality Fire Command' },
+      { key:'hospitals', name:'Regional Hospital Network' }
+    ];
+
+    function getDefaultSiteRoomId(){
+      var hn = (window.location.hostname || 'local').toLowerCase();
+      if(hn === '127.0.0.1' || hn === 'localhost' || /^(10\.|192\.168\.|172\.)/.test(hn)){
+        return 'waterrrr-local-demo';
+      }
+      return 'waterrrr-live-' + hn.replace(/[^a-z0-9]/g, '').slice(0, 22);
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var qrHouseParam = params.get('house') || '';
+    var isSpeakerMode = (params.get('mode') === 'speaker');
+    var isHospitalAlertQrMode = (params.get('mode') === 'hospital-alert');
+    var pendingHospitalQrPayload = null;
+    var initialSpeakerMsg = params.get('msg') || '';
+    var initialSpeakerId = params.get('sid') || '';
+    var initialSpeakerLang = params.get('slang') || '';
+    var langParam = params.get('lang') || '';
+    var currentLang = (langParam === 'te' || (!langParam && localStorage.getItem('emerrr_lang') === 'te')) ? 'te' : 'en';
+    var roomId = params.get('room') || getDefaultSiteRoomId();
+    var isLocalPrivateHost = (window.location.protocol === 'http:' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(window.location.hostname)));
+    var localApiAvailable = isLocalPrivateHost;
+
+    var deviceId = localStorage.getItem('waterrrr_mob_id');
+    if(!deviceId){
+      deviceId = 'mob-' + Math.random().toString(36).slice(2, 8);
+      localStorage.setItem('waterrrr_mob_id', deviceId);
+    }
+
+    var pairedKey = qrHouseParam || localStorage.getItem('waterrrr_mob_house') || 'house-13';
+    var residentName = localStorage.getItem('waterrrr_mob_name') || '';
+    var isSignedIn = false;
+
+    var audioCtx = null;
+    var audioArmed = false;
+    var sirenInterval = null;
+    var silencedAlertId = null;
+    var activeAlert = null;
+    var isCurrentlyRinging = false;
+    var wakeLock = null;
+    var bc = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('waterrrr_fire_sync') : null;
+    var hospBc = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('emerrr_hospital_sync') : null;
+    var spkBc = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('emerrr_speaker_sync') : null;
+    var activeHospitalAlert = null;
+    var hospitalSirenInterval = null;
+    var silencedHospitalId = null;
+    var isHospitalRinging = false;
+    var activeSpeakerAlert = null;
+    var speakerArmed = false;
+    var isSpeakerSpeaking = false;
+    var lastSpokenSpeakerKey = null;
+    var pendingSpeakerPayload = null;
+    var speakerHistoryLog = [];
+
+    function getExactMobileHouseLocation(houseKey){
+      var u = getUnitByKey(houseKey || pairedKey || 'house-13');
+      if(!u || u.x === undefined){
+        u = getUnitByKey('house-13');
+      }
+      var houseNum = parseInt(String(u.key || 'house-1').replace('house-', ''), 10) || 1;
+      var vx = u.x, vz = u.z;
+      var villageName = 'District 4 · South-West House Zone';
+      if(vx <= 0 && vz >= 0) villageName = 'District 4 · South-West House Zone';
+      else if(vx <= 0 && vz < 0) villageName = 'District 4 · North-West House Zone';
+      else if(vx > 0 && vz >= 0) villageName = 'District 4 · South-East House Zone';
+      else villageName = 'District 4 · North-East House Zone';
+      var laneNum = ((houseNum - 1) % 4) + 1;
+      var lat = (17.41000 - vz * 0.00090).toFixed(5);
+      var lon = (78.44000 + vx * 0.00100).toFixed(5);
+      return {
+        houseKey: u.key,
+        houseName: u.name,
+        villageName: villageName,
+        exactAddress: u.name + ', Plot #' + houseNum + ', Lane ' + laneNum + ', ' + villageName,
+        gps: lat + '° N, ' + lon + '° E',
+        grid: Math.round(vx * 100) + 'm E, ' + Math.round(vz * 100) + 'm S',
+        x: vx,
+        z: vz
+      };
+    }
+
+    function getUnitByKey(k){
+      for(var i = 0; i < HOUSES.length; i++){
+        if(HOUSES[i].key === k) return HOUSES[i];
+      }
+      for(var j = 0; j < SPECIAL_UNITS.length; j++){
+        if(SPECIAL_UNITS[j].key === k) return SPECIAL_UNITS[j];
+      }
+      return HOUSES[12]; // House No. 13 default
+    }
+
+    function getPairedUnit(){
+      return getUnitByKey(pairedKey);
+    }
+
+    function getWithin500m(cx, cz){
+      var list = [];
+      HOUSES.forEach(function(h){
+        var dm = Math.round(Math.hypot(h.x - cx, h.z - cz) * 100);
+        if(dm <= 500) list.push({ house: h, distMeters: dm });
+      });
+      list.sort(function(a, b){ return a.distMeters - b.distMeters; });
+      return list;
+    }
+
+    function formatMobUnitName(unit){
+      if(!unit) return currentLang === 'te' ? 'ఇల్లు నం. 13' : 'House No. 13';
+      if(currentLang === 'te'){
+        if(unit.key === 'municipality') return 'మున్సిపాలిటీ ఫైర్ కమాండ్';
+        if(unit.key === 'hospitals') return 'ప్రాంతీయ ఆసుపత్రి నెట్‌వర్క్';
+        return String(unit.name || '').replace('House No. ', 'ఇల్లు నం. ');
+      }
+      return unit.name;
+    }
+
+    var MOB_STATIC_TEXT = {
+      en: {
+        brandSub: '1-TO-1 HOUSE MOBILE ALARM',
+        signinTag: 'RESIDENT USERNAME SIGN-IN · 1 PHONE = 1 HOUSE',
+        signinSub: 'Sign in to lock this phone to one house. Whenever a fire erupts at this house or <strong>any nearby house within 500m</strong>, this phone will immediately flash and ring.',
+        lblHouse: 'Select House Number (QR Auto-Filled)',
+        lblName: 'Resident Name',
+        lblEmail: 'Resident House Username',
+        lblPhone: 'Mobile Number / Resident ID',
+        lblSignedRes: 'SIGNED IN RESIDENT',
+        switchHouse: 'Switch House',
+        clearFire: '✓ RESOLVE / CLEAR ACTIVE FIRE',
+        testRing: '🔔 TEST SIREN & VIBRATION (1 SEC)',
+        footer: 'EMERRR // 1-TO-1 HOUSE MOBILE ALARM · STRICT MONOCHROME'
+      },
+      te: {
+        brandSub: '1-టు-1 ఇంటి మొబైల్ అలారం',
+        signinTag: 'నివాసి యూజర్‌నేమ్ సైన్-ఇన్ · 1 ఫోన్ = 1 ఇల్లు',
+        signinSub: 'ఈ ఫోన్‌ను ఒకే ఇంటికి లాక్ చేయడానికి సైన్ ఇన్ చేయండి. ఈ ఇంటిలో లేదా <strong>500మీ పరిధిలోని ఏ ఇంటిలోనైనా</strong> అగ్నిప్రమాదం జరిగినప్పుడు ఈ ఫోన్ వెంటనే మెరుస్తూ అలారం మోగిస్తుంది.',
+        lblHouse: 'ఇంటి నంబర్ ఎంచుకోండి (QR ఆటో-ఫిల్)',
+        lblName: 'నివాసి పేరు',
+        lblEmail: 'నివాసి ఇంటి యూజర్‌నేమ్',
+        lblPhone: 'మొబైల్ నంబర్ / నివాసి ఐడీ',
+        lblSignedRes: 'సైన్ ఇన్ చేసిన నివాసి',
+        switchHouse: 'ఇల్లు మార్చండి',
+        clearFire: '✓ అగ్నిప్రమాద అలర్ట్ క్లియర్ చేయండి',
+        testRing: '🔔 సైరన్ & వైబ్రేషన్ పరీక్షించండి (1 సెకను)',
+        footer: 'EMERRR // 1-టు-1 ఇంటి మొబైల్ అలారం · మోనోక్రోమ్'
+      }
+    };
+
+    function applyMobileStaticTranslations(){
+      var t = MOB_STATIC_TEXT[currentLang] || MOB_STATIC_TEXT.en;
+      document.documentElement.lang = currentLang;
+      var btnEn = document.getElementById('mob-lang-en');
+      var btnTe = document.getElementById('mob-lang-te');
+      if(btnEn) btnEn.classList.toggle('active', currentLang === 'en');
+      if(btnTe) btnTe.classList.toggle('active', currentLang === 'te');
+
+      var setTxt = function(id, val){ var el = document.getElementById(id); if(el) el.textContent = val; };
+      var setHtml = function(id, val){ var el = document.getElementById(id); if(el) el.innerHTML = val; };
+      setTxt('mob-brand-sub', t.brandSub);
+      setTxt('mob-signin-tag', t.signinTag);
+      setHtml('mob-signin-sub', t.signinSub);
+      setTxt('lbl-signin-house', t.lblHouse);
+      setTxt('lbl-signin-name', t.lblName);
+      setTxt('lbl-signin-email', t.lblEmail);
+      setTxt('lbl-signin-phone', t.lblPhone);
+      setTxt('lbl-signed-resident', t.lblSignedRes);
+      setTxt('btn-switch-house', t.switchHouse);
+      setTxt('btn-mob-clear-fire', t.clearFire);
+      setTxt('btn-mob-test-ring', t.testRing);
+      setTxt('footer-note', t.footer);
+
+      var u = getPairedUnit();
+      var uName = formatMobUnitName(u);
+      setHtml('mob-signin-title', currentLang === 'te'
+        ? ('మీ ఫోన్‌ను <span id="signin-house-heading">' + uName + '</span> కు కనెక్ట్ చేయండి')
+        : ('Connect Your Phone to <span id="signin-house-heading">' + uName + '</span>'));
+      setTxt('btn-signin-connect', currentLang === 'te'
+        ? ('🔐 సైన్ ఇన్ & ఫోన్‌ను ' + uName + ' కు కనెక్ట్ చేయండి')
+        : ('🔐 SIGN IN & CONNECT PHONE TO ' + uName.toUpperCase()));
+
+      var armBtn = document.getElementById('btn-arm-audio');
+      if(armBtn){
+        armBtn.textContent = audioArmed
+          ? (currentLang === 'te' ? '✓ సైరన్ ఆడియో సిద్ధంగా ఉంది (మోగడానికి రెడీ)' : '✓ SIREN AUDIO ARMED (READY TO RING)')
+          : (currentLang === 'te' ? '🔊 సైరన్ ఆడియో సిద్ధం చేయడానికి నొక్కండి' : '🔊 TAP TO ARM SIREN AUDIO');
+      }
+      if(typeof updateSleepGuardUI === 'function'){
+        try{ updateSleepGuardUI(); }catch(e){}
+      }
+    }
+
+    window.setMobileLanguage = function(lang){
+      currentLang = (lang === 'te') ? 'te' : 'en';
+      try{ localStorage.setItem('emerrr_lang', currentLang); }catch(e){}
+      var prevVal = (document.getElementById('signin-house-select') || {}).value || pairedKey;
+      populateSignInSelect();
+    applyMobileStaticTranslations();
+      var sel = document.getElementById('signin-house-select');
+      if(sel && prevVal){ sel.value = prevVal; pairedKey = prevVal; }
+      applyMobileStaticTranslations();
+      if(isSignedIn){
+        enterConnectedView();
+      }
+    };
+
+    function populateSignInSelect(){
+      var sel = document.getElementById('signin-house-select');
+      var opts = HOUSES.map(function(h){
+        return '<option value="' + h.key + '">' + formatMobUnitName(h) + ' (' + Math.round(h.x * 100) + 'm, ' + Math.round(h.z * 100) + 'm)</option>';
+      }).join('');
+      opts += '<option value="municipality">🏛️ ' + formatMobUnitName(SPECIAL_UNITS[0]) + '</option>';
+      opts += '<option value="hospitals">🏥 ' + formatMobUnitName(SPECIAL_UNITS[1]) + '</option>';
+      sel.innerHTML = opts;
+      sel.value = getPairedUnit().key;
+      pairedKey = sel.value;
+
+      function syncHeading(){
+        pairedKey = sel.value;
+        var u = getUnitByKey(sel.value);
+        var uName = formatMobUnitName(u);
+        var hd = document.getElementById('signin-house-heading');
+        if(hd) hd.textContent = uName;
+        var btnC = document.getElementById('btn-signin-connect');
+        if(btnC){
+          btnC.textContent = currentLang === 'te'
+            ? ('🔐 సైన్ ఇన్ & ఫోన్‌ను ' + uName + ' కు కనెక్ట్ చేయండి')
+            : ('🔐 SIGN IN & CONNECT PHONE TO ' + uName.toUpperCase());
+        }
+        var nameInput = document.getElementById('signin-name');
+        var emailInput = document.getElementById('signin-email');
+        var passInput = document.getElementById('signin-pass');
+        var num = parseInt(u.key.replace('house-', ''), 10);
+        var rName = (window.RESIDENT_NAMES_32 && window.RESIDENT_NAMES_32[num]) || u.name;
+
+        if(nameInput){
+          if(u.key === 'municipality') nameInput.value = 'Municipal Administrator';
+          else if(u.key === 'hospitals') nameInput.value = 'District Civil Hospital Command';
+          else nameInput.value = rName;
+        }
+
+        if(emailInput){
+          if(u.key === 'municipality') emailInput.value = 'admin';
+          else if(u.key === 'hospitals') emailInput.value = 'hospital';
+          else if(num >= 1 && num <= 32){
+            emailInput.value = 'House ' + num + ' ' + rName;
+          } else {
+            emailInput.value = 'House 13 Venkatesh';
+          }
+          if(typeof updateMobileWhitelistBadge === 'function') updateMobileWhitelistBadge(emailInput.value);
+        }
+        if(passInput && !passInput.value) passInput.value = '1111';
+      }
+      if(!sel.dataset.boundChange){
+        sel.dataset.boundChange = '1';
+        sel.addEventListener('change', syncHeading);
+      }
+
+      var datalistEl = document.getElementById('supabase-mail-datalist');
+      if(datalistEl){
+        var dlHtml = '';
+        for(var i = 1; i <= 32; i++){
+          var rN = (window.RESIDENT_NAMES_32 && window.RESIDENT_NAMES_32[i]) || ('Resident ' + i);
+          var uN = 'House ' + i + ' ' + rN;
+          dlHtml += '<option value="' + uN + '">House No. ' + i + ' — ' + rN + '</option>';
+          dlHtml += '<option value="house' + i + '">House ' + i + ' (Quick)</option>';
+        }
+        dlHtml += '<option value="admin">Administrator / Municipality</option>';
+        dlHtml += '<option value="hospital">District Civil Hospital Command</option>';
+        datalistEl.innerHTML = dlHtml;
+      }
+
+      syncHeading();
+    }
+
+    function renderNearbyWatchlist(){
+      var unit = getPairedUnit();
+      var titleEl = document.getElementById('nearby-watch-title');
+      var chipsEl = document.getElementById('nearby-watch-chips');
+      if(unit.x === undefined){
+        titleEl.textContent = currentLang === 'te'
+          ? '📡 మొత్తం 32 ఇళ్ల నుండి అగ్నిప్రమాద అలర్ట్‌లు అందుతున్నాయి'
+          : '📡 Receiving Fire Alerts From All 32 Houses';
+        chipsEl.innerHTML = '<span class="nearby-chip is-self">' + (currentLang === 'te' ? 'అన్ని 32 ఇళ్లు పర్యవేక్షించబడుతున్నాయి' : 'ALL 32 HOUSES MONITORED') + '</span>';
+        return;
+      }
+      var near = getWithin500m(unit.x, unit.z);
+      var uName = formatMobUnitName(unit);
+      titleEl.textContent = currentLang === 'te'
+        ? ('📡 ' + uName + ' నుండి 500మీ లోపు ఉన్న ' + near.length + ' ఇళ్లను పర్యవేక్షిస్తోంది')
+        : ('📡 Monitors ' + near.length + ' Houses Within 500m of ' + uName);
+      chipsEl.innerHTML = near.map(function(item){
+        var isSelf = (item.house.key === unit.key);
+        return '<span class="nearby-chip ' + (isSelf ? 'is-self' : '') + '">' +
+          formatMobUnitName(item.house) + (isSelf ? (currentLang === 'te' ? ' (మీరు)' : ' (YOU)') : ' · ' + item.distMeters + (currentLang === 'te' ? 'మీ' : 'm')) +
+        '</span>';
+      }).join('');
+    }
+
+    function enterConnectedView(){
+      isSignedIn = true;
+      var unit = getPairedUnit();
+      var uName = formatMobUnitName(unit);
+      document.getElementById('signin-card').style.display = 'none';
+      document.getElementById('connected-console').style.display = 'flex';
+      document.getElementById('paired-resident-banner').textContent = (residentName || 'Resident') + ' · ' + uName;
+      var mobLoc = (unit.x !== undefined) ? getExactMobileHouseLocation(unit.key) : null;
+      document.getElementById('house-coords-text').textContent = mobLoc
+        ? (currentLang === 'te'
+          ? ('జత: ' + uName + ' · ' + mobLoc.villageName + ' · GPS ' + mobLoc.gps)
+          : ('Paired 1-to-1: ' + uName + ' · ' + mobLoc.villageName + ' · GPS ' + mobLoc.gps))
+        : (currentLang === 'te'
+          ? ('జత చేయబడింది 1-టు-1: ' + uName + ' · జిల్లా ప్రాధాన్యత · బజర్ సిద్ధం')
+          : ('Paired 1-to-1: ' + uName + ' · District Priority · Buzzer Armed'));
+
+      var fireBtn = document.getElementById('btn-mob-trigger-fire');
+      var hospBtn = document.getElementById('btn-mob-trigger-hospital');
+      if(unit.x !== undefined){
+        fireBtn.style.display = 'block';
+        fireBtn.textContent = currentLang === 'te'
+          ? ('🔥 ' + uName + ' వద్ద అగ్నిప్రమాదం నివేదించండి (500మీ అలర్ట్)')
+          : ('🔥 REPORT FIRE AT ' + uName.toUpperCase() + ' (ALERT 500M)');
+        if(hospBtn){
+          hospBtn.style.display = 'block';
+          hospBtn.textContent = currentLang === 'te'
+            ? ('🚑 ' + uName + ' వద్ద ఎవరైనా గాయపడ్డారు — ఆసుపత్రి బజర్ మోగించండి')
+            : ('🚑 SOMEONE INJURED AT ' + uName.toUpperCase() + ' — RING HOSPITAL BUZZER');
+        }
+      } else {
+        fireBtn.style.display = 'none';
+        if(hospBtn) hospBtn.style.display = 'none';
+      }
+
+      renderNearbyWatchlist();
+      evaluateFireAlert(activeAlert);
+      evaluateHospitalAlert(activeHospitalAlert);
+      updateSleepGuardUI();
+      requestMobileWakeLock();
+      startBackgroundWorkerTimer();
+      startServerNotificationStream();
+      pollServerOnce();
+      sendCloudHello();
+    }
+
+    // =========================================================================
+    // 32 FIXED USERNAME ACCOUNTS DATABASE (MOBILE WHITELIST)
+    // =========================================================================
+    window.RESIDENT_NAMES_32 = {
+      1: 'Prabakar', 2: 'Ramesh', 3: 'Suresh', 4: 'Venkatesh', 5: 'Lakshmi',
+      6: 'Srinivas', 7: 'Anjaneyulu', 8: 'Nagaraju', 9: 'Satyanarayana', 10: 'Appa Rao',
+      11: 'Mallikarjun', 12: 'Koteswara Rao', 13: 'K. Venkatesh', 14: 'Subba Rao',
+      15: 'Ramakrishna', 16: 'Narayana Murthy', 17: 'Govinda Rajulu', 18: 'Chandra Sekhar',
+      19: 'Venkata Ramana', 20: 'Samba Siva Rao', 21: 'Balaraju', 22: 'Thirupathi Rao',
+      23: 'Jagadeesh', 24: 'Mohan Rao', 25: 'Siva Kumar', 26: 'Ranga Rao',
+      27: 'Bhaskara Rao', 28: 'Prasad Babu', 29: 'Vijay Kumar', 30: 'Radha Krishna',
+      31: 'Visweswara Rao', 32: 'Murali Krishna'
+    };
+
+    function normalizeMobIdentity(s){
+      if(!s) return '';
+      return String(s).trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    window.MOBILE_HOUSE_ACCOUNTS_DB = {};
+    for(var mhi = 1; mhi <= 32; mhi++){
+      var mhKey = 'house-' + mhi;
+      var mhName = 'House No. ' + mhi;
+      var rName = window.RESIDENT_NAMES_32[mhi] || ('Resident ' + mhi);
+      var mUsername = 'House ' + mhi + ' ' + rName;
+      var mPrimary = 'house' + mhi + '.emerrr@gmail.com';
+      var mShort = 'house' + mhi + '@gmail.com';
+      var mAcc = {
+        houseNumber: mhi,
+        houseKey: mhKey,
+        houseName: mhName,
+        username: mUsername,
+        residentName: rName,
+        email: mPrimary,
+        aliasEmails: [mShort],
+        aliasUsernames: [
+          'house ' + mhi,
+          'house' + mhi,
+          'house-' + mhi,
+          'h' + mhi,
+          rName.toLowerCase(),
+          mUsername.toLowerCase()
+        ],
+        password: '1111',
+        altPasswords: ['house' + mhi + '@123', 'emerrr2026', 'water123', 'waterrrr2026'],
+        role: 'citizen'
+      };
+      if(mhi === 1){
+        mAcc.aliasUsernames.push('prabakar', 'house 1 prabakar');
+      }
+      if(mhi === 13){
+        mAcc.aliasUsernames.push('house 13', 'house13');
+      }
+
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(mUsername)] = mAcc;
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity('House ' + mhi)] = mAcc;
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity('house' + mhi)] = mAcc;
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity('house-' + mhi)] = mAcc;
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity('h' + mhi)] = mAcc;
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(rName)] = mAcc;
+
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(mPrimary)] = mAcc;
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(mShort)] = mAcc;
+      
+    }
+
+    var mobAdmin = {
+      username: 'admin',
+      email: 'admin@emerrr.gov.in',
+      password: '1111',
+      altPasswords: ['water123', 'waterrrr2026', 'emerrr2026'],
+      role: 'municipality',
+      residentName: 'Municipal Administrator'
+    };
+    ['admin', 'municipality', 'administrator', 'admin@emerrr.gov.in'].forEach(function(k){
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(k)] = mobAdmin;
+    });
+
+    var mobHosp = {
+      username: 'hospital',
+      email: 'hospital@emerrr.gov.in',
+      password: '1111',
+      altPasswords: ['hosp123', 'emerrr2026'],
+      role: 'hospital',
+      residentName: 'District Civil Hospital Command'
+    };
+    ['hospital', 'hospital command', 'hospital@emerrr.gov.in'].forEach(function(k){
+      window.MOBILE_HOUSE_ACCOUNTS_DB[normalizeMobIdentity(k)] = mobHosp;
+    });
+
+    window.updateMobileWhitelistBadge = function(identVal){
+      var norm = normalizeMobIdentity(identVal);
+      var badge = document.getElementById('mob-whitelist-badge');
+      if(!badge) return;
+      if(!norm){ badge.style.display = 'none'; return; }
+      var acc = window.MOBILE_HOUSE_ACCOUNTS_DB[norm];
+      if(acc){
+        badge.style.display = 'block';
+        badge.style.border = '1px solid #FFF';
+        badge.style.color = '#FFF';
+        badge.style.background = '#111';
+        var disp = acc.username || (acc.houseName + ' ' + (acc.residentName || ''));
+        badge.innerHTML = '✓ VERIFIED DATABASE ACCOUNT: <strong>' + disp + '</strong> &bull; PASS: 1111';
+      } else {
+        badge.style.display = 'block';
+        badge.style.border = '1px solid #FFF';
+        badge.style.color = '#000';
+        badge.style.background = '#FFF';
+        badge.style.fontWeight = '700';
+        badge.innerHTML = '⛔ UNREGISTERED: Not in 32 House Database. Nobody other than them can enter.';
+      }
+    };
+
+    window.signInAndConnectHouse = function(){
+      var sel = document.getElementById('signin-house-select');
+      pairedKey = sel.value;
+      var u = getPairedUnit();
+      residentName = (document.getElementById('signin-name').value || '').trim() || ('Resident — ' + u.name);
+      var mobIdent = ((document.getElementById('signin-email') || {}).value || '').trim();
+      var mobPass = ((document.getElementById('signin-pass') || {}).value || '').trim();
+      var mobPhone = (document.getElementById('signin-phone').value || '').trim();
+
+      // =======================================================================
+      // STRICT GATEKEEPER CHECK: "NOBODY OTHER THAN THEM CAN ENTER"
+      // =======================================================================
+      var norm = normalizeMobIdentity(mobIdent);
+      var acc = window.MOBILE_HOUSE_ACCOUNTS_DB[norm];
+      if(!acc){
+        alert(currentLang === 'te'
+          ? ('⛔ యాక్సెస్ నిరాకరించబడింది: "' + mobIdent + '" నమోదుకాని యూజర్‌నేమ్.\n\n32 అధికారిక ఇంటి ఖాతాలకు మాత్రమే ప్రవేశం అనుమతించబడుతుంది (ఉదా: House 1 Prabakar). ఇతరులెవరూ ప్రవేశించలేరు.')
+          : ('⛔ ACCESS DENIED: Unregistered identity ("' + mobIdent + '").\n\nOnly the 32 authorized House accounts (like House 1 Prabakar) are permitted in the Emerrr Database. Nobody other than them can enter.'));
+        return;
+      }
+
+      var isPassOk = (acc.password === mobPass || (acc.altPasswords && acc.altPasswords.indexOf(mobPass) !== -1));
+      if(!isPassOk){
+        alert(currentLang === 'te'
+          ? ('⛔ పాస్‌వర్డ్ తప్పు: దయచేసి సరైన పాస్‌వర్డ్ నమోదు చేయండి (డిఫాల్ట్: 1111).')
+          : ('⛔ ACCESS DENIED: Incorrect passkey for "' + mobIdent + '". Default passkey is 1111.'));
+        return;
+      }
+
+      var mobEmail = acc.email || mobIdent;
+      try{
+        localStorage.setItem('waterrrr_mob_house', pairedKey);
+        localStorage.setItem('waterrrr_mob_name', residentName);
+        localStorage.setItem('waterrrr_mob_email', mobEmail);
+        localStorage.setItem('waterrrr_mob_username', acc.username || mobIdent);
+        localStorage.setItem('waterrrr_mob_phone', mobPhone);
+        localStorage.setItem('waterrrr_mob_signed_in', '1');
+      }catch(e){}
+
+      if(sbClient && mobEmail){
+        sbClient.from('alert_emails').upsert({
+          email: mobEmail,
+          full_name: residentName,
+          role: (u.key === 'municipality') ? 'municipality' : ((u.key === 'hospitals') ? 'hospital' : 'citizen'),
+          house_key: u.key,
+          house_name: u.name,
+          notify_fire: true
+        }, { onConflict: 'email' }).then(function(res){
+          if(res.error){
+            sbClient.from('municipal_alerts').insert({
+              title: '📱 MOBILE PAIRED: ' + u.name,
+              detail: 'SUBSCRIBER: ' + mobEmail + ' linked 1-to-1 to ' + u.name,
+              author: residentName
+            }).catch(function(){});
+          }
+        }).catch(function(){});
+      }
+
+      // Unlock audio & wake lock on Sign-In tap!
+      armMobileAlarmAudio();
+      enterConnectedView();
+    };
+
+    window.signOutMobileHouse = function(){
+      isSignedIn = false;
+      isCurrentlyRinging = false;
+      isHospitalRinging = false;
+      stopSirenLoop();
+      if(typeof stopHospitalBuzzerLoop === 'function') stopHospitalBuzzerLoop();
+      document.body.classList.remove('is-alarm-strobe');
+      try{ localStorage.removeItem('waterrrr_mob_signed_in'); }catch(e){}
+      document.getElementById('connected-console').style.display = 'none';
+      document.getElementById('signin-card').style.display = 'flex';
+    };
+
+    var mobSirenAudioEl = null;
+
+    function buildMobileWavSirenUrl(){
+      try{
+        var sr = 16000;
+        var dur = 1.2;
+        var len = Math.floor(sr * dur);
+        var buf = new ArrayBuffer(44 + len * 2);
+        var v = new DataView(buf);
+        function ws(o, s){ for(var i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
+        ws(0, 'RIFF'); v.setUint32(4, 36 + len * 2, true); ws(8, 'WAVE');
+        ws(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+        v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+        ws(36, 'data'); v.setUint32(40, len * 2, true);
+        var phase = 0;
+        for(var i = 0; i < len; i++){
+          var t = i / sr;
+          var freq = 780 + 360 * Math.sin(2 * Math.PI * (t / dur));
+          phase += 2 * Math.PI * freq / sr;
+          var sample = Math.sin(phase) * 0.65 + Math.sin(phase * 2) * 0.22;
+          v.setInt16(44 + i * 2, Math.max(-32767, Math.min(32767, Math.floor(sample * 25000))), true);
+        }
+        return URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+      }catch(e){ return null; }
+    }
+
+    /* ================= 24/7 SLEEP GUARD & BACKGROUND AUDIO KEEP-ALIVE ================= */
+    var silentKeepAliveAudioEl = null;
+    var isKeepAlivePlaying = false;
+    var wakeLockActive = false;
+    var bgTimerWorker = null;
+
+    function buildSilentWavDataUrl() {
+      try {
+        var sr = 8000;
+        var dur = 3.0;
+        var numSamples = Math.floor(sr * dur);
+        var buf = new ArrayBuffer(44 + numSamples * 2);
+        var v = new DataView(buf);
+        function ws(o, s){ for(var i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
+        ws(0, 'RIFF'); v.setUint32(4, 36 + numSamples * 2, true); ws(8, 'WAVE');
+        ws(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+        v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+        ws(36, 'data'); v.setUint32(40, numSamples * 2, true);
+        // Ultra-low 22Hz inaudible sub-dither so Android AudioFlinger treats stream as active media
+        for(var i = 0; i < numSamples; i++){
+          var sample = Math.round(Math.sin(2 * Math.PI * 22 * (i / sr)) * 140);
+          v.setInt16(44 + i * 2, sample, true);
+        }
+        return URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+      } catch(e) {
+        return 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+      }
+    }
+
+    function ensureSilentKeepAliveAudio(){
+      if(!silentKeepAliveAudioEl){
+        var u = buildSilentWavDataUrl();
+        if(u){
+          silentKeepAliveAudioEl = new Audio(u);
+          silentKeepAliveAudioEl.loop = true;
+          silentKeepAliveAudioEl.setAttribute('playsinline', '');
+          silentKeepAliveAudioEl.volume = 0.05; // Audible to Android OS media scheduler, inaudible on mobile speaker
+        }
+      }
+    }
+
+    function startSilentKeepAliveAudio(){
+      ensureSilentKeepAliveAudio();
+      if(silentKeepAliveAudioEl && silentKeepAliveAudioEl.paused){
+        silentKeepAliveAudioEl.play().then(function(){
+          isKeepAlivePlaying = true;
+          updateSleepGuardUI();
+        }).catch(function(){});
+      }
+      if('mediaSession' in navigator){
+        try {
+          var u = getPairedUnit();
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'Emerrr Emergency Sentinel Active',
+            artist: 'Background Safety & Siren Monitor',
+            album: (u ? u.name : 'House Emergency Guard'),
+            artwork: [
+              { src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96"><rect width="96" height="96" fill="%23000"/><text x="48" y="60" font-size="44" text-anchor="middle" fill="%23FFF">🚨</text></svg>', sizes: '96x96', type: 'image/svg+xml' }
+            ]
+          });
+          navigator.mediaSession.playbackState = 'playing';
+          try {
+            navigator.mediaSession.setActionHandler('play', function(){
+              if(silentKeepAliveAudioEl) silentKeepAliveAudioEl.play().catch(function(){});
+            });
+            navigator.mediaSession.setActionHandler('pause', function(){
+              if(silentKeepAliveAudioEl) silentKeepAliveAudioEl.play().catch(function(){});
+            });
+          } catch(e){}
+        } catch(e){}
+      }
+    }
+
+    function requestMobileWakeLock(){
+      if('wakeLock' in navigator && navigator.wakeLock.request){
+        navigator.wakeLock.request('screen').then(function(wl){
+          wakeLock = wl;
+          wakeLockActive = true;
+          updateSleepGuardUI();
+          wakeLock.addEventListener('release', function(){
+            wakeLockActive = false;
+            wakeLock = null;
+            updateSleepGuardUI();
+          });
+        }).catch(function(){
+          wakeLockActive = false;
+          updateSleepGuardUI();
+        });
+      }
+    }
+
+    window.toggleMobileWakeLock = function(){
+      if(wakeLock){
+        try{ wakeLock.release(); }catch(e){}
+        wakeLock = null;
+        wakeLockActive = false;
+        updateSleepGuardUI();
+      } else {
+        requestMobileWakeLock();
+        startSilentKeepAliveAudio();
+        requestAlarmNotifications();
+      }
+    };
+
+    function startBackgroundWorkerTimer(){
+      if(bgTimerWorker) return;
+      try {
+        var workerCode = "var timer=null; self.onmessage=function(e){ if(e.data==='start'){ if(!timer) timer=setInterval(function(){ postMessage('tick'); }, 500); } else if(e.data==='stop'){ if(timer){ clearInterval(timer); timer=null; } } };";
+        var blob = new Blob([workerCode], { type: 'application/javascript' });
+        bgTimerWorker = new Worker(URL.createObjectURL(blob));
+        bgTimerWorker.onmessage = function(){
+          if(typeof pollServerOnce === 'function') pollServerOnce();
+          if(typeof pollSupabaseFireState === 'function') pollSupabaseFireState();
+        };
+        bgTimerWorker.postMessage('start');
+      } catch(e){}
+    }
+
+    window.requestAlarmNotifications = function(){
+      if('Notification' in window){
+        Notification.requestPermission().then(function(perm){
+          updateSleepGuardUI();
+          if(perm === 'granted'){
+            triggerLockScreenAlarmNotification(
+              currentLang === 'te' ? '✓ అలర్ట్‌లు ప్రారంభించబడ్డాయి' : '✓ LOCK-SCREEN ALERTS ARMED',
+              currentLang === 'te'
+                ? 'ఫోన్ స్లీప్‌లో లేదా బ్యాక్‌గ్రౌండ్‌లో ఉన్నా అత్యవసర అలారం నోటిఫికేషన్ వస్తుంది.'
+                : 'Emergency alarms will pop up & ring even when phone is on sleep or locked.',
+              'emerrr-perm-test',
+              [400, 200, 400]
+            );
+          }
+        }).catch(function(){});
+      }
+    };
+
+    function triggerLockScreenAlarmNotification(title, body, customTag, customVibrate){
+      var tag = customTag || 'emerrr-fire-alarm';
+      var vibratePattern = customVibrate || [1000, 300, 1000, 300, 1000, 300, 1000];
+      var opts = {
+        body: body || 'Emergency notification from Emerrr.',
+        icon: './assets/icon-192.png',
+        badge: './assets/badge-72.png',
+        tag: tag,
+        renotify: true,
+        requireInteraction: true,
+        silent: false,
+        vibrate: vibratePattern,
+        data: { url: './mobile.html', time: Date.now() },
+        actions: [
+          { action: 'open', title: '🚨 VIEW ALARM' }
+        ]
+      };
+
+      // Vibrate mobile device directly
+      if(navigator.vibrate){
+        try{ navigator.vibrate(vibratePattern); }catch(e){}
+      }
+
+      // Method 1: Android Chrome Service Worker registration (PRIMARY for mobile background/sleep)
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.ready.then(function(reg){
+          if(reg && reg.showNotification){
+            return reg.showNotification(title, opts);
+          }
+        }).catch(function(){
+          fallbackWindowNotification(title, opts);
+        });
+
+        if(navigator.serviceWorker.controller){
+          try{
+            navigator.serviceWorker.controller.postMessage({
+              type: 'SHOW_NOTIFICATION',
+              title: title,
+              options: opts
+            });
+          }catch(e){}
+        }
+      } else {
+        fallbackWindowNotification(title, opts);
+      }
+    }
+
+    function fallbackWindowNotification(title, opts){
+      if('Notification' in window && Notification.permission === 'granted'){
+        try {
+          new Notification(title, opts);
+        } catch(e){
+          console.warn('Standard Notification fallback note:', e);
+        }
+      }
+    }
+
+    var sseSource = null;
+    function startServerNotificationStream(){
+      if(typeof EventSource === 'undefined') return;
+      if(sseSource) return;
+      try {
+        sseSource = new EventSource('/api/notifications/stream');
+        sseSource.addEventListener('fire_alert', function(e){
+          try {
+            var data = JSON.parse(e.data);
+            if(data && typeof applyRemoteFireSync === 'function') applyRemoteFireSync(data);
+          } catch(err){}
+        });
+        sseSource.addEventListener('fire_clear', function(){
+          if(typeof applyRemoteFireSync === 'function') applyRemoteFireSync({ active: false });
+        });
+        sseSource.addEventListener('hospital_alert', function(e){
+          try {
+            var data = JSON.parse(e.data);
+            if(data && typeof applyRemoteHospitalSync === 'function') applyRemoteHospitalSync(data);
+          } catch(err){}
+        });
+        sseSource.addEventListener('test_alert', function(e){
+          try {
+            var data = JSON.parse(e.data);
+            triggerLockScreenAlarmNotification('🔔 TEST NOTIFICATION', data.message || 'Test alert from Python server');
+            playSirenBurst(1);
+          } catch(err){}
+        });
+      } catch(e){}
+    }
+
+    function updateSleepGuardUI(){
+      var titleEl = document.getElementById('text-sleep-guard-title');
+      var chipWl = document.getElementById('chip-wakelock');
+      var chipBg = document.getElementById('chip-bg-audio');
+      var chipNotif = document.getElementById('chip-notifications');
+      var descEl = document.getElementById('text-sleep-guard-desc');
+      var btnWl = document.getElementById('btn-toggle-wake-lock');
+
+      var isTe = (currentLang === 'te');
+
+      if(titleEl){
+        titleEl.textContent = isTe ? '24/7 స్లీప్ గార్డ్ సక్రియం' : '24/7 SLEEP GUARD ACTIVE';
+      }
+
+      if(chipWl){
+        if(wakeLockActive || wakeLock){
+          chipWl.style.background = '#FFF';
+          chipWl.style.color = '#000';
+          chipWl.textContent = isTe ? '✓ స్క్రీన్ ఆన్: సక్రియం' : '✓ SCREEN AWAKE: ACTIVE';
+        } else {
+          chipWl.style.background = 'rgba(255,255,255,0.12)';
+          chipWl.style.color = '#FFF';
+          chipWl.textContent = isTe ? '📱 స్క్రీన్ ఆన్: స్టాండ్‌బై' : '📱 SCREEN AWAKE: STANDBY';
+        }
+      }
+
+      if(btnWl){
+        btnWl.textContent = (wakeLockActive || wakeLock)
+          ? (isTe ? '✓ స్క్రీన్ ఆన్‌లో ఉంది' : '✓ Screen Awake ON')
+          : (isTe ? '📱 స్క్రీన్ ఆన్‌లో ఉంచండి' : '📱 Keep Screen Awake');
+      }
+
+      if(chipBg){
+        if(isKeepAlivePlaying || audioArmed){
+          chipBg.style.background = '#FFF';
+          chipBg.style.color = '#000';
+          chipBg.textContent = isTe ? '🔊 బ్యాక్‌గ్రౌండ్ ఆడియో: సక్రియం (స్లీప్‌లో మోగుతుంది)' : '🔊 BACKGROUND AUDIO: ARMED (RINGS WHEN ASLEEP)';
+        } else {
+          chipBg.style.background = 'rgba(255,255,255,0.12)';
+          chipBg.style.color = '#FFF';
+          chipBg.textContent = isTe ? '🔊 బ్యాక్‌గ్రౌండ్ ఆడియో: సిద్ధం చేయండి' : '🔊 BACKGROUND AUDIO: TAP TO ARM';
+        }
+      }
+
+      if(chipNotif){
+        if('Notification' in window && Notification.permission === 'granted'){
+          chipNotif.style.background = '#FFF';
+          chipNotif.style.color = '#000';
+          chipNotif.textContent = isTe ? '✓ లాక్-స్క్రీన్ నోటిఫికేషన్: ఆన్' : '✓ LOCK-SCREEN ALERTS: ON';
+        } else {
+          chipNotif.style.background = 'rgba(255,255,255,0.12)';
+          chipNotif.style.color = '#FFF';
+          chipNotif.textContent = isTe ? '🔔 లాక్-స్క్రీన్ అలర్ట్స్ అనుమతించండి' : '🔔 ENABLE LOCK-SCREEN ALERTS';
+        }
+      }
+
+      if(descEl){
+        descEl.textContent = isTe
+          ? 'సక్రియ మీడియా సెషన్ & స్క్రీన్ వేక్-లాక్ ద్వారా మీ ఫోన్ స్లీప్‌లోకి వెళ్లదు. ఒకవేళ స్క్రీన్ ఆఫ్ చేసినా లేదా ఫోన్ లాక్ చేసినా సైరన్ వెంటనే మోగుతుంది మరియు వైబ్రేట్ అవుతుంది.'
+          : 'Active background media session & screen wake-lock prevent your phone from sleeping or suspending alarms. The siren rings and vibrates even when screen is locked or asleep.';
+      }
+    }
+
+    // Auto-re-sync when screen wakes up or tab returns
+    document.addEventListener('visibilitychange', function(){
+      if(document.visibilityState === 'visible'){
+        requestMobileWakeLock();
+        if(silentKeepAliveAudioEl && silentKeepAliveAudioEl.paused && audioArmed){
+          silentKeepAliveAudioEl.play().catch(function(){});
+        }
+        pollServerOnce();
+        if(typeof pollSupabaseFireState === 'function') pollSupabaseFireState();
+      } else {
+        if(silentKeepAliveAudioEl && silentKeepAliveAudioEl.paused && audioArmed){
+          silentKeepAliveAudioEl.play().catch(function(){});
+        }
+        if(bgTimerWorker) bgTimerWorker.postMessage('start');
+        if(typeof startServerNotificationStream === 'function') startServerNotificationStream();
+      }
+    });
+
+    function ensureMobileAudioEl(){
+      if(!mobSirenAudioEl){
+        var u = buildMobileWavSirenUrl();
+        if(u){
+          mobSirenAudioEl = new Audio(u);
+          mobSirenAudioEl.loop = true;
+          mobSirenAudioEl.setAttribute('playsinline', '');
+          mobSirenAudioEl.volume = 1.0;
+        }
+      }
+    }
+
+    function initAudio(){
+      ensureMobileAudioEl();
+      startSilentKeepAliveAudio();
+      requestMobileWakeLock();
+      startBackgroundWorkerTimer();
+      if(!audioCtx){
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if(Ctx) audioCtx = new Ctx();
+      }
+      if(audioCtx && audioCtx.state === 'suspended'){
+        audioCtx.resume().then(function(){
+          if(audioCtx.state === 'running'){
+            audioArmed = true;
+            var btn = document.getElementById('btn-arm-audio');
+            if(btn){
+              btn.classList.add('armed');
+              btn.textContent = currentLang === 'te' ? '✓ సైరన్ ఆడియో సిద్ధంగా ఉంది (మోగడానికి రెడీ)' : '✓ SIREN AUDIO ARMED (READY TO RING)';
+            }
+            updateSleepGuardUI();
+          }
+        }).catch(function(){});
+      } else if(audioCtx && audioCtx.state === 'running'){
+        audioArmed = true;
+        updateSleepGuardUI();
+      }
+    }
+
+    document.addEventListener('pointerdown', function(){
+      initAudio();
+      startSilentKeepAliveAudio();
+      requestMobileWakeLock();
+      startBackgroundWorkerTimer();
+      if(isCurrentlyRinging && silencedAlertId !== (activeAlert && activeAlert.id)){
+        if(mobSirenAudioEl && mobSirenAudioEl.paused){
+          mobSirenAudioEl.play().catch(function(){});
+        }
+      }
+    }, { passive: true });
+
+    function playSirenBurst(cycles){
+      initAudio();
+      var count = cycles || 2;
+      if(audioCtx){
+        var fireOscs = function(){
+          try{
+            for(var i = 0; i < count; i++){
+              var t = audioCtx.currentTime + i * 0.42;
+              var osc = audioCtx.createOscillator();
+              var gain = audioCtx.createGain();
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(780, t);
+              osc.frequency.linearRampToValueAtTime(1120, t + 0.20);
+              osc.frequency.linearRampToValueAtTime(780, t + 0.40);
+              gain.gain.setValueAtTime(0.001, t);
+              gain.gain.linearRampToValueAtTime(0.35, t + 0.04);
+              gain.gain.linearRampToValueAtTime(0.30, t + 0.36);
+              gain.gain.exponentialRampToValueAtTime(0.001, t + 0.41);
+              osc.connect(gain);
+              gain.connect(audioCtx.destination);
+              osc.start(t);
+              osc.stop(t + 0.41);
+            }
+          }catch(e){}
+        };
+        if(audioCtx.state === 'suspended'){
+          audioCtx.resume().then(fireOscs).catch(function(){});
+        } else {
+          fireOscs();
+        }
+      }
+      if(navigator.vibrate){
+        try{ navigator.vibrate([1000, 250, 1000, 250, 1000, 250, 1000]); }catch(e){}
+      }
+    }
+
+    window.armMobileAlarmAudio = function(){
+      initAudio();
+      startSilentKeepAliveAudio();
+      requestMobileWakeLock();
+      requestAlarmNotifications();
+      startBackgroundWorkerTimer();
+
+      if(mobSirenAudioEl){
+        mobSirenAudioEl.muted = true;
+        mobSirenAudioEl.play().then(function(){
+          mobSirenAudioEl.pause();
+          mobSirenAudioEl.currentTime = 0;
+          mobSirenAudioEl.muted = false;
+          audioArmed = true;
+          var btn = document.getElementById('btn-arm-audio');
+          if(btn){
+            btn.classList.add('armed');
+            btn.textContent = currentLang === 'te' ? '✓ సైరన్ ఆడియో సిద్ధంగా ఉంది (మోగడానికి రెడీ)' : '✓ SIREN AUDIO ARMED (READY TO RING)';
+          }
+          updateSleepGuardUI();
+          if(isCurrentlyRinging){
+            mobSirenAudioEl.play().catch(function(){});
+          }
+        }).catch(function(){
+          mobSirenAudioEl.muted = false;
+        });
+      }
+      if(audioCtx){
+        audioCtx.resume().then(function(){
+          audioArmed = true;
+          var btn = document.getElementById('btn-arm-audio');
+          if(btn){
+            btn.classList.add('armed');
+            btn.textContent = currentLang === 'te' ? '✓ సైరన్ ఆడియో సిద్ధంగా ఉంది (మోగడానికి రెడీ)' : '✓ SIREN AUDIO ARMED (READY TO RING)';
+          }
+          updateSleepGuardUI();
+          try{
+            var osc = audioCtx.createOscillator();
+            var gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.16);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.16);
+          }catch(e){}
+        }).catch(function(){});
+      }
+      if(isCurrentlyRinging){
+        playSirenBurst(2);
+      }
+      pollServerOnce();
+      sendCloudHello();
+    };
+
+    window.testLocalRing = function(){
+      armMobileAlarmAudio();
+      playSirenBurst(2);
+      if(mobSirenAudioEl){
+        mobSirenAudioEl.muted = false;
+        mobSirenAudioEl.volume = 1.0;
+        mobSirenAudioEl.currentTime = 0;
+        mobSirenAudioEl.play().catch(function(){});
+        setTimeout(function(){
+          if(!isCurrentlyRinging && mobSirenAudioEl){
+            mobSirenAudioEl.pause();
+            mobSirenAudioEl.currentTime = 0;
+            if(audioArmed) startSilentKeepAliveAudio();
+          }
+        }, 1500);
+      }
+      if(navigator.vibrate){
+        try{ navigator.vibrate([400, 150, 400]); }catch(e){}
+      }
+      triggerLockScreenAlarmNotification(
+        currentLang === 'te' ? '🔔 టెస్ట్ అలారం మోగింది' : '🔔 TEST ALARM TRIGGERED',
+        currentLang === 'te' ? 'మీ మొబైల్ స్పీకర్ మరియు స్లీప్ గార్డ్ సంపూర్ణంగా పనిచేస్తున్నాయి.' : 'Your mobile speaker and Sleep Guard are fully armed and ready.'
+      );
+    };
+
+    window.testSleepAlarmCountdown = function(){
+      var btn = document.getElementById('btn-test-sleep-alarm');
+      var statusEl = document.getElementById('test-sleep-status');
+      initAudio();
+      startSilentKeepAliveAudio();
+      requestMobileWakeLock();
+      requestAlarmNotifications();
+      var count = 5;
+      if(statusEl){
+        statusEl.style.display = 'block';
+        statusEl.textContent = (currentLang === 'te')
+          ? ('⏳ ఇప్పుడే మీ ఫోన్‌ను లాక్ చేయండి లేదా హోమ్ స్క్రీన్‌కు వెళ్ళండి: ' + count + ' సెకన్లు...')
+          : ('⏳ LOCK YOUR PHONE OR GO TO HOME SCREEN NOW: ' + count + 's...');
+      }
+      if(btn) btn.disabled = true;
+
+      var interval = setInterval(function(){
+        count--;
+        if(count > 0){
+          if(statusEl) statusEl.textContent = (currentLang === 'te')
+            ? ('⏳ ఇప్పుడే మీ ఫోన్‌ను లాక్ చేయండి లేదా హోమ్ స్క్రీన్‌కు వెళ్ళండి: ' + count + ' సెకన్లు...')
+            : ('⏳ LOCK YOUR PHONE OR GO TO HOME SCREEN NOW: ' + count + 's...');
+        } else {
+          clearInterval(interval);
+          if(statusEl) statusEl.textContent = (currentLang === 'te')
+            ? '🚨 స్లీప్ అలారం ప్రారంభించబడింది!'
+            : '🚨 FIRING ALARM NOW!';
+          if(btn) btn.disabled = false;
+          // Play loud siren
+          playSirenBurst(3);
+          if(mobSirenAudioEl){
+            mobSirenAudioEl.muted = false;
+            mobSirenAudioEl.volume = 1.0;
+            mobSirenAudioEl.currentTime = 0;
+            mobSirenAudioEl.play().catch(function(){});
+          }
+          if(navigator.vibrate){
+            try{ navigator.vibrate([1000, 300, 1000, 300, 1000, 300, 1000]); }catch(e){}
+          }
+          triggerLockScreenAlarmNotification(
+            currentLang === 'te' ? '🚨 బ్యాక్‌గ్రౌండ్ & స్లీప్ అలారం సక్సెస్' : '🚨 BACKGROUND ALARM TEST SUCCESS',
+            currentLang === 'te'
+              ? 'మీ ఫోన్ స్లీప్‌లో లేదా బ్యాక్‌గ్రౌండ్‌లో ఉన్నా సైరన్ మరియు నోటిఫికేషన్ విజయవంతంగా మోగాయి!'
+              : 'Your phone successfully rang the siren & notification in background / sleep!',
+            'emerrr-sleep-test',
+            [1000, 300, 1000, 300, 1000, 300, 1000]
+          );
+          if('mediaSession' in navigator){
+            try {
+              navigator.mediaSession.metadata = new MediaMetadata({
+                title: '🚨 BACKGROUND ALARM TEST SUCCESS!',
+                artist: 'Siren Active in Background Mode',
+                album: 'EMERRR SLEEP GUARD'
+              });
+              navigator.mediaSession.playbackState = 'playing';
+            } catch(e){}
+          }
+        }
+      }, 1000);
+    };
+
+    function startSirenLoop(){
+      ensureMobileAudioEl();
+      if(silentKeepAliveAudioEl){
+        try{ silentKeepAliveAudioEl.pause(); }catch(e){}
+      }
+      if(mobSirenAudioEl){
+        mobSirenAudioEl.muted = false;
+        mobSirenAudioEl.volume = 1.0;
+        mobSirenAudioEl.currentTime = 0;
+        mobSirenAudioEl.play().catch(function(){
+          var btn = document.getElementById('btn-arm-audio');
+          if(btn){
+            btn.classList.remove('armed');
+            btn.textContent = currentLang === 'te' ? '🔊 గట్టి సైరన్ మోగించడానికి ఇక్కడ నొక్కండి!' : '🔊 TAP HERE TO PLAY LOUD SIREN NOW!';
+          }
+        });
+      }
+      if('mediaSession' in navigator){
+        try {
+          var u = getPairedUnit();
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: '🚨 FIRE ALARM RINGING!',
+            artist: 'EMERGENCY EVACUATION NOW',
+            album: (u ? u.name : 'House Emergency Alert')
+          });
+          navigator.mediaSession.playbackState = 'playing';
+        } catch(e){}
+      }
+      if(navigator.vibrate){
+        try{ navigator.vibrate([1000, 250, 1000, 250, 1000, 250, 1000]); }catch(e){}
+      }
+      triggerLockScreenAlarmNotification(
+        currentLang === 'te' ? '🚨 అగ్నిప్రమాద అత్యవసర అలారం!' : '🚨 FIRE EMERGENCY ALARM!',
+        currentLang === 'te'
+          ? ('అగ్నిప్రమాదం సంభవించింది! వెంటనే బయటకు రండి!')
+          : ('Urgent fire eruption detected! Evacuate immediately!')
+      );
+
+      if(sirenInterval) return;
+      playSirenBurst(2);
+      sirenInterval = setInterval(function(){
+        if(!isCurrentlyRinging) return;
+        playSirenBurst(2);
+        if(navigator.vibrate){
+          try{ navigator.vibrate([1000, 250, 1000, 250, 1000, 250, 1000]); }catch(e){}
+        }
+      }, 900);
+    }
+
+    function stopSirenLoop(){
+      if(mobSirenAudioEl){
+        try{
+          mobSirenAudioEl.pause();
+          mobSirenAudioEl.currentTime = 0;
+        }catch(e){}
+      }
+      if(sirenInterval){
+        clearInterval(sirenInterval);
+        sirenInterval = null;
+      }
+      if(audioArmed){
+        startSilentKeepAliveAudio();
+      }
+    }
+
+    window.silenceLocalSiren = function(){
+      if(activeAlert && activeAlert.id){
+        silencedAlertId = activeAlert.id;
+      }
+      stopSirenLoop();
+      if(!isHospitalRinging) document.body.classList.remove('is-alarm-strobe');
+      document.getElementById('btn-silence-siren').textContent = currentLang === 'te' ? '✓ ఈ అలర్ట్ కోసం సైరన్ ఆపబడింది' : '✓ SIREN SILENCED FOR THIS ALERT';
+    };
+
+    function playHospitalBuzzerPulse(){
+      initAudio();
+      if(audioCtx){
+        var fireBeeps = function(){
+          try{
+            [{ s:0.00, d:0.16, f:660 }, { s:0.22, d:0.16, f:880 }, { s:0.44, d:0.24, f:1046 }].forEach(function(n){
+              var osc = audioCtx.createOscillator();
+              var gain = audioCtx.createGain();
+              osc.type = 'square';
+              var t = audioCtx.currentTime + n.s;
+              osc.frequency.setValueAtTime(n.f, t);
+              gain.gain.setValueAtTime(0.001, t);
+              gain.gain.linearRampToValueAtTime(0.18, t + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.001, t + n.d);
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.start(t); osc.stop(t + n.d + 0.01);
+            });
+          }catch(e){}
+        };
+        if(audioCtx.state === 'suspended'){
+          audioCtx.resume().then(fireBeeps).catch(function(){});
+        } else {
+          fireBeeps();
+        }
+      }
+      if(navigator.vibrate){
+        try{ navigator.vibrate([240, 100, 240, 100, 400]); }catch(e){}
+      }
+    }
+
+    function startHospitalBuzzerLoop(){
+      ensureMobileAudioEl();
+      if(mobSirenAudioEl){
+        mobSirenAudioEl.muted = false;
+        mobSirenAudioEl.play().catch(function(){});
+      }
+      if(hospitalSirenInterval) return;
+      playHospitalBuzzerPulse();
+      hospitalSirenInterval = setInterval(function(){
+        if(!isHospitalRinging) return;
+        playHospitalBuzzerPulse();
+      }, 1000);
+    }
+
+    function stopHospitalBuzzerLoop(){
+      if(hospitalSirenInterval){
+        clearInterval(hospitalSirenInterval);
+        hospitalSirenInterval = null;
+      }
+      if(!isCurrentlyRinging){
+        stopSirenLoop();
+      }
+    }
+
+    window.silenceLocalHospitalBuzzer = function(){
+      if(activeHospitalAlert && activeHospitalAlert.id) silencedHospitalId = activeHospitalAlert.id;
+      isHospitalRinging = false;
+      stopHospitalBuzzerLoop();
+      if(!isCurrentlyRinging) document.body.classList.remove('is-alarm-strobe');
+      var b = document.getElementById('btn-mob-silence-hospital');
+      if(b) b.textContent = currentLang === 'te' ? '✓ ఆసుపత్రి బజర్ ఆపబడింది' : '✓ HOSPITAL BUZZER SILENCED';
+    };
+
+    function broadcastHospitalPayload(payload){
+      try{ localStorage.setItem('emerrr_hospital_sync', JSON.stringify(payload || { active: false })); }catch(e){}
+      if(hospBc){ try{ hospBc.postMessage(payload || { active: false }); }catch(e){} }
+      if(sbFireChannel){
+        try{
+          sbFireChannel.send({ type: 'broadcast', event: 'hospital_state', payload: payload || { active: false } });
+        }catch(e){}
+      }
+      if(sbClient && sbAuthReady){
+        var t = (payload && payload.active)
+          ? (payload.acknowledgedBy ? ('🚑 HOSPITAL DISPATCHED: ' + payload.houseName) : ('🏥 INJURY EMERGENCY BUZZER: ' + payload.houseName + ' (' + payload.villageName + ')'))
+          : '✓ INJURY EMERGENCY CLEARED';
+        var d = (payload && payload.active)
+          ? ('Someone injured at ' + payload.houseName + ', ' + payload.villageName + ' [' + payload.gps + '] — ' + payload.injuryType)
+          : 'Cleared from mobile device.';
+        sbClient.from('municipal_alerts').insert({
+          title: t,
+          detail: d + ' | HOSPITAL_SYNC:' + JSON.stringify(payload || { active: false, id: 'HCLEAR-' + Date.now() }),
+          author: (payload && payload.reporter) || residentName || 'Mobile Emergency SOS'
+        }).then(function(){}).catch(function(){});
+      } else if(sbClient){
+        pendingHospitalQrPayload = payload;
+      }
+      if(localApiAvailable){
+        var ep = (payload && payload.active)
+          ? (payload.acknowledgedBy ? '/api/hospital-ack' : '/api/hospital-trigger')
+          : '/api/hospital-clear';
+        fetch(ep, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload && payload.acknowledgedBy ? Object.assign({}, payload, { hospitalName: payload.acknowledgedBy }) : (payload || {}))
+        }).catch(function(){});
+      }
+      fetch('https://ntfy.sh/' + encodeURIComponent(roomId), {
+        method: 'POST',
+        body: JSON.stringify({ type: 'hospital_state', ts: Date.now(), payload: payload || { active: false } })
+      }).catch(function(){});
+    }
+
+    window.triggerHospitalInjuryFromMobile = function(){
+      armMobileAlarmAudio();
+      var unit = getPairedUnit();
+      if(unit.x === undefined) return;
+      var loc = getExactMobileHouseLocation(unit.key);
+      var alertId = 'HOSP-' + Math.floor(1000 + Math.random() * 9000);
+      var payload = {
+        active: true,
+        id: alertId,
+        houseKey: loc.houseKey,
+        houseName: loc.houseName,
+        villageName: loc.villageName,
+        exactAddress: loc.exactAddress,
+        gps: loc.gps,
+        grid: loc.grid,
+        x: loc.x,
+        z: loc.z,
+        injuryType: 'Someone Injured — Mobile SOS Emergency',
+        reporter: (residentName || loc.houseName) + ' (Mobile SOS)',
+        acknowledgedBy: null,
+        time: new Date().toLocaleTimeString()
+      };
+      evaluateHospitalAlert(payload);
+      broadcastHospitalPayload(payload);
+    };
+
+    window.ackHospitalFromMobile = function(){
+      if(!activeHospitalAlert || !activeHospitalAlert.active) return;
+      var next = Object.assign({}, activeHospitalAlert, {
+        acknowledgedBy: (residentName || 'Regional Hospital Ambulance Fleet')
+      });
+      evaluateHospitalAlert(next);
+      broadcastHospitalPayload(next);
+    };
+
+    window.clearHospitalFromMobile = function(){
+      var payload = { active: false };
+      evaluateHospitalAlert(payload);
+      broadcastHospitalPayload(payload);
+    };
+
+    function evaluateHospitalAlert(hAlert){
+      activeHospitalAlert = hAlert || null;
+      if(!isSignedIn) return;
+      var unit = getPairedUnit();
+      var card = document.getElementById('mobile-hospital-card');
+      var tagEl = document.getElementById('mob-hosp-card-tag');
+      var titleEl = document.getElementById('mob-hosp-card-title');
+      var detEl = document.getElementById('mob-hosp-card-details');
+      var ackBtn = document.getElementById('btn-mob-ack-hospital');
+      var silBtn = document.getElementById('btn-mob-silence-hospital');
+      if(!card) return;
+
+      if(!hAlert || !hAlert.active){
+        isHospitalRinging = false;
+        silencedHospitalId = null;
+        stopHospitalBuzzerLoop();
+        if(!isCurrentlyRinging) document.body.classList.remove('is-alarm-strobe');
+        card.style.display = 'none';
+        return;
+      }
+
+      var isHospitalUnit = (unit.key === 'hospitals' || unit.key === 'municipality');
+      var isOwnHouse = (unit.key === hAlert.houseKey);
+      if(!isHospitalUnit && !isOwnHouse){
+        isHospitalRinging = false;
+        stopHospitalBuzzerLoop();
+        if(!isCurrentlyRinging) document.body.classList.remove('is-alarm-strobe');
+        card.style.display = 'none';
+        return;
+      }
+
+      card.style.display = 'flex';
+      tagEl.textContent = hAlert.acknowledgedBy
+        ? ('🚑 DISPATCHED · ' + String(hAlert.acknowledgedBy).toUpperCase())
+        : (isHospitalUnit ? '🚨 HOSPITAL BUZZER RINGING — INJURED CITIZEN SOS' : '🚑 HOSPITAL BUZZER SENT TO ALL HOSPITALS');
+      titleEl.textContent = hAlert.houseName + ' · ' + hAlert.villageName;
+      detEl.innerHTML =
+        '<strong>EXACT HOUSE:</strong> ' + hAlert.houseName + '<br>' +
+        '<strong>HOUSE ZONE:</strong> ' + hAlert.villageName + '<br>' +
+        '<strong>ADDRESS:</strong> ' + hAlert.exactAddress + '<br>' +
+        '<strong>GPS / GRID:</strong> ' + hAlert.gps + (hAlert.grid ? ' (' + hAlert.grid + ')' : '') + '<br>' +
+        '<strong>CONDITION:</strong> ' + hAlert.injuryType + ' &middot; ' + (hAlert.time || 'LIVE');
+
+      // Dispatch Lock Screen & Background Notification
+      triggerLockScreenAlarmNotification(
+        isHospitalUnit
+          ? (currentLang === 'te' ? ('🏥 అత్యవసర ఆసుపత్రి బజర్: ' + hAlert.houseName) : ('🏥 HOSPITAL SOS BUZZER: ' + hAlert.houseName))
+          : (currentLang === 'te' ? ('🚑 అంబులెన్స్ అభ్యర్థన: ' + hAlert.houseName) : ('🚑 AMBULANCE CALL: ' + hAlert.houseName)),
+        hAlert.houseName + ' (' + hAlert.villageName + ') - ' + (hAlert.injuryType || 'Trauma') + '. ' + hAlert.exactAddress,
+        'emerrr-hosp-' + (hAlert.id || 'sos'),
+        [800, 200, 800, 200]
+      );
+
+      if(isHospitalUnit){
+        if(ackBtn) ackBtn.style.display = hAlert.acknowledgedBy ? 'none' : 'block';
+        if(silBtn) silBtn.style.display = hAlert.acknowledgedBy ? 'none' : 'block';
+        if(!hAlert.acknowledgedBy && silencedHospitalId !== hAlert.id){
+          isHospitalRinging = true;
+          document.body.classList.add('is-alarm-strobe');
+          if(silBtn) silBtn.textContent = currentLang === 'te' ? '🔇 ఆసుపత్రి బజర్ ఆపండి' : '🔇 SILENCE HOSPITAL BUZZER';
+          startHospitalBuzzerLoop();
+        } else {
+          isHospitalRinging = false;
+          stopHospitalBuzzerLoop();
+          if(!isCurrentlyRinging) document.body.classList.remove('is-alarm-strobe');
+        }
+      } else {
+        if(ackBtn) ackBtn.style.display = 'none';
+        if(silBtn) silBtn.style.display = 'none';
+      }
+    }
+
+    function playSpeakerChime(){
+      try{
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!audioCtx && Ctx) audioCtx = new Ctx();
+        if(!audioCtx) return;
+        var runChime = function(){
+          try{
+            [{ s:0.00, d:0.18, f:587.33 }, { s:0.20, d:0.32, f:880.00 }].forEach(function(n){
+              var osc = audioCtx.createOscillator();
+              var gain = audioCtx.createGain();
+              osc.type = 'triangle';
+              var t = audioCtx.currentTime + n.s;
+              osc.frequency.setValueAtTime(n.f, t);
+              gain.gain.setValueAtTime(0.001, t);
+              gain.gain.linearRampToValueAtTime(0.24, t + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.001, t + n.d);
+              osc.connect(gain); gain.connect(audioCtx.destination);
+              osc.start(t); osc.stop(t + n.d + 0.01);
+            });
+          }catch(e){}
+        };
+        if(audioCtx.state === 'suspended'){
+          audioCtx.resume().then(runChime).catch(function(){});
+        } else {
+          runChime();
+        }
+      }catch(e){}
+    }
+
+    function setSpeakerSpeakingUI(flag){
+      isSpeakerSpeaking = !!flag;
+      var eq = document.getElementById('mob-spk-eq');
+      var hero = document.getElementById('speaker-status-hero');
+      if(eq) eq.classList.toggle('is-speaking', isSpeakerSpeaking);
+      if(hero) hero.classList.toggle('ringing', isSpeakerSpeaking);
+    }
+
+    window.stopMobileSpeakerSpeech = function(){
+      try{
+        if(window.speechSynthesis) window.speechSynthesis.cancel();
+      }catch(e){}
+      setSpeakerSpeakingUI(false);
+    };
+
+    window.speakMunicipalAnnouncement = function(payload, forcePlay){
+      if(!payload || !payload.message) return;
+      var text = String(payload.message).trim();
+      if(!text) return;
+      var key = (payload.id || 'SPK') + '|' + (payload.seq || 0) + '|' + text;
+      if(!forcePlay && lastSpokenSpeakerKey === key) return;
+      lastSpokenSpeakerKey = key;
+
+      if(payload.chime !== false) playSpeakerChime();
+
+      if(typeof window.speechSynthesis === 'undefined'){
+        setSpeakerSpeakingUI(true);
+        setTimeout(function(){ setSpeakerSpeakingUI(false); }, 2500);
+        return;
+      }
+
+      try{
+        window.speechSynthesis.cancel();
+        var hasTeluguChars = /[\u0C00-\u0C7F]/.test(text);
+        var voiceLang = (payload.lang === 'te' || hasTeluguChars) ? 'te-IN' : 'en-IN';
+        var reps = Math.max(1, Math.min(3, parseInt(payload.repeat || 1, 10) || 1));
+        var rate = Math.max(0.7, Math.min(1.3, parseFloat(payload.rate || 0.96) || 0.96));
+        var voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
+        var pickedVoice = null;
+        for(var vi = 0; vi < voices.length; vi++){
+          if(voices[vi].lang && voices[vi].lang.toLowerCase().indexOf(voiceLang.slice(0, 2)) === 0){
+            pickedVoice = voices[vi];
+            break;
+          }
+        }
+
+        var speakNext = function(remaining){
+          if(remaining <= 0){
+            setSpeakerSpeakingUI(false);
+            return;
+          }
+          var utter = new SpeechSynthesisUtterance(text);
+          utter.lang = voiceLang;
+          if(pickedVoice) utter.voice = pickedVoice;
+          utter.rate = rate;
+          utter.pitch = 1.0;
+          utter.volume = 1.0;
+          utter.onstart = function(){
+            setSpeakerSpeakingUI(true);
+          };
+          utter.onend = function(){
+            if(remaining > 1){
+              setTimeout(function(){ speakNext(remaining - 1); }, 350);
+            } else {
+              setSpeakerSpeakingUI(false);
+            }
+          };
+          utter.onerror = function(){
+            pendingSpeakerPayload = payload;
+            setSpeakerSpeakingUI(false);
+          };
+          window.speechSynthesis.speak(utter);
+        };
+        setTimeout(function(){ speakNext(reps); }, 220);
+      }catch(e){
+        pendingSpeakerPayload = payload;
+        setSpeakerSpeakingUI(false);
+      }
+    };
+
+    window.armMobileSpeaker = function(){
+      speakerArmed = true;
+      audioArmed = true;
+      try{
+        var Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!audioCtx && Ctx) audioCtx = new Ctx();
+        if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(function(){});
+      }catch(e){}
+      playSpeakerChime();
+
+      if(typeof window.speechSynthesis !== 'undefined'){
+        try{
+          var unlockUtter = new SpeechSynthesisUtterance(' ');
+          unlockUtter.volume = 0.01;
+          unlockUtter.rate = 1.2;
+          window.speechSynthesis.speak(unlockUtter);
+        }catch(e){}
+      }
+
+      var btn = document.getElementById('btn-arm-mobile-speaker');
+      if(btn){
+        btn.classList.add('armed');
+        btn.textContent = currentLang === 'te'
+          ? '✓ మొబైల్ స్పీకర్ సిద్ధంగా ఉంది · ప్రత్యక్షంగా వింటోంది'
+          : '✓ MOBILE SPEAKER ARMED · LISTENING LIVE';
+      }
+
+      if(pendingSpeakerPayload && pendingSpeakerPayload.active){
+        var toSpeak = pendingSpeakerPayload;
+        pendingSpeakerPayload = null;
+        speakMunicipalAnnouncement(toSpeak, true);
+      } else if(activeSpeakerAlert && activeSpeakerAlert.active && activeSpeakerAlert.message){
+        speakMunicipalAnnouncement(activeSpeakerAlert, true);
+      }
+      sendSpeakerCloudHello();
+    };
+
+    window.repeatMobileSpeaker = function(){
+      if(!speakerArmed) armMobileSpeaker();
+      if(activeSpeakerAlert && activeSpeakerAlert.message){
+        speakMunicipalAnnouncement(activeSpeakerAlert, true);
+      }
+    };
+
+    function renderSpeakerHistory(){
+      var box = document.getElementById('mob-spk-history-list');
+      if(!box) return;
+      if(speakerHistoryLog.length === 0){
+        box.innerHTML = '<div>' + (currentLang === 'te' ? 'ఇంకా ఎటువంటి ప్రకటనలు అందలేదు.' : 'No announcements received yet.') + '</div>';
+        return;
+      }
+      box.innerHTML = speakerHistoryLog.slice(0, 8).map(function(item){
+        return '<div style="border-bottom:1px solid rgba(255,255,255,0.14); padding-bottom:6px;">' +
+          '<div style="color:#FFF; font-weight:700;">📢 ' + (item.time || 'LIVE') + ' · ' + (item.targetScope || 'All 32 Houses') + '</div>' +
+          '<div style="color:var(--muted); margin-top:2px;">' + item.message + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function evaluateSpeakerBroadcast(sAlert){
+      if(!sAlert) return;
+      activeSpeakerAlert = sAlert;
+      var badge = document.getElementById('mob-spk-badge');
+      var title = document.getElementById('mob-spk-title');
+      var liveBox = document.getElementById('mob-spk-live-text');
+      var meta = document.getElementById('mob-spk-meta');
+      var scopeTxt = document.getElementById('mob-spk-scope-text');
+
+      if(!sAlert.active || !sAlert.message){
+        stopMobileSpeakerSpeech();
+        if(badge) badge.textContent = currentLang === 'te' ? 'స్టాండ్‌బై · వింటోంది' : 'STANDBY · SPEAKER LISTENING';
+        if(title) title.textContent = currentLang === 'te' ? 'మున్సిపల్ ప్రకటన కోసం సిద్ధంగా ఉంది' : 'Ready For Municipal Broadcast';
+        if(liveBox) liveBox.textContent = currentLang === 'te'
+          ? 'మున్సిపాలిటీ సోషల్ స్పీకర్ పోర్టల్ నుండి సందేశం కోసం వేచి ఉంది...'
+          : 'Waiting for informing text fed from the Municipality Social Speaker Portal...';
+        if(meta) meta.textContent = currentLang === 'te'
+          ? 'మున్సిపాలిటీ నుండి టెక్స్ట్ పంపిన వెంటనే ఈ మొబైల్ స్పీకర్‌లో వినిపిస్తుంది.'
+          : 'Any text submitted by the Municipality will play out loud through this mobile speaker automatically.';
+        return;
+      }
+
+      if(badge) badge.textContent = currentLang === 'te' ? ('📢 మున్సిపల్ బ్రాడ్‌కాస్ట్ · ' + (sAlert.id || 'LIVE')) : ('📢 MUNICIPAL ANNOUNCEMENT · ' + (sAlert.id || 'LIVE'));
+      if(title) title.textContent = currentLang === 'te' ? 'మున్సిపల్ సోషల్ స్పీకర్ ప్రకటన' : 'Municipal Public Announcement';
+      if(liveBox) liveBox.textContent = sAlert.message;
+      if(scopeTxt) scopeTxt.textContent = (currentLang === 'te' ? 'లక్ష్యం: ' : 'Target: ') + (sAlert.targetScope || 'All 32 Houses');
+      if(meta) meta.textContent = (sAlert.author || 'Municipality Command') + ' · ' + (sAlert.time || 'LIVE') + ' · ' + ((sAlert.lang === 'te') ? 'తెలుగు' : 'English') + ' (' + (sAlert.repeat || 1) + 'x)';
+
+      var exists = speakerHistoryLog.some(function(h){ return h.id === sAlert.id && h.message === sAlert.message; });
+      if(!exists){
+        speakerHistoryLog.unshift({
+          id: sAlert.id,
+          message: sAlert.message,
+          targetScope: sAlert.targetScope,
+          time: sAlert.time || new Date().toLocaleTimeString()
+        });
+        renderSpeakerHistory();
+      }
+
+      // Dispatch Lock Screen & Background Notification
+      triggerLockScreenAlarmNotification(
+        currentLang === 'te' ? '📢 మున్సిపల్ పబ్లిక్ ప్రకటన' : '📢 MUNICIPAL PUBLIC ANNOUNCEMENT',
+        sAlert.message,
+        'emerrr-speaker-' + (sAlert.id || 'live'),
+        [600, 200, 600]
+      );
+
+      if(speakerArmed){
+        speakMunicipalAnnouncement(sAlert, false);
+      } else {
+        pendingSpeakerPayload = sAlert;
+        speakMunicipalAnnouncement(sAlert, false);
+      }
+    }
+
+    function sendSpeakerCloudHello(){
+      if(!isSpeakerMode) return;
+      var payload = {
+        type: 'speaker_hello',
+        ts: Date.now(),
+        deviceId: deviceId,
+        speakerName: 'Mobile Social Speaker',
+        audioArmed: !!speakerArmed,
+        speaking: !!isSpeakerSpeaking
+      };
+      if(sbFireChannel){
+        try{ sbFireChannel.send({ type: 'broadcast', event: 'speaker_hello', payload: payload }); }catch(e){}
+      }
+      fetch('https://ntfy.sh/' + encodeURIComponent(roomId), {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      }).catch(function(){});
+    }
+
+    function enterSpeakerModeView(){
+      isSpeakerMode = true;
+      document.getElementById('signin-card').style.display = 'none';
+      document.getElementById('connected-console').style.display = 'none';
+      document.getElementById('speaker-mode-console').style.display = 'flex';
+      var bsub = document.getElementById('mob-brand-sub');
+      if(bsub) bsub.textContent = currentLang === 'te' ? 'మున్సిపల్ సోషల్ స్పీకర్' : 'MUNICIPAL SOCIAL SPEAKER';
+      if(initialSpeakerMsg){
+        evaluateSpeakerBroadcast({
+          active: true,
+          id: initialSpeakerId || ('QR-' + Date.now().toString().slice(-4)),
+          seq: 1,
+          message: initialSpeakerMsg,
+          lang: initialSpeakerLang || currentLang,
+          repeat: 1,
+          rate: 0.96,
+          chime: true,
+          targetScope: 'Scanned Mobile Speaker QR',
+          author: 'Municipality Social Speaker Portal',
+          time: new Date().toLocaleTimeString()
+        });
+      }
+      sendSpeakerCloudHello();
+    }
+
+    window.exitSpeakerModeToHouse = function(){
+      isSpeakerMode = false;
+      stopMobileSpeakerSpeech();
+      document.getElementById('speaker-mode-console').style.display = 'none';
+      document.getElementById('signin-card').style.display = 'flex';
+      applyMobileStaticTranslations();
+    };
+
+    function renderHospitalQrConsole(payload){
+      var hero = document.getElementById('mob-hqr-hero');
+      var badge = document.getElementById('mob-hqr-badge');
+      var title = document.getElementById('mob-hqr-title');
+      var sub = document.getElementById('mob-hqr-sub');
+      var det = document.getElementById('mob-hqr-details');
+      var loc = getExactMobileHouseLocation(pairedKey || 'house-13');
+      var hTitle = document.getElementById('mob-hqr-house-title');
+      var hSub = document.getElementById('mob-hqr-loc-sub');
+      if(hTitle) hTitle.textContent = loc.houseName;
+      if(hSub) hSub.textContent = loc.villageName + ' · GPS ' + loc.gps;
+
+      if(!payload || !payload.active){
+        if(hero) hero.classList.remove('ringing');
+        if(badge) badge.textContent = currentLang === 'te' ? 'స్టాండ్‌బై · ఆసుపత్రి QR' : 'STANDBY · HOSPITAL QR READY';
+        if(title) title.textContent = currentLang === 'te' ? (loc.houseName + ' కోసం సిద్ధం') : ('Ready For ' + loc.houseName);
+        if(sub) sub.textContent = currentLang === 'te'
+          ? 'అన్ని ప్రాంతీయ ఆసుపత్రులకు వెంటనే సమాచారం పంపడానికి క్రింది బటన్ నొక్కండి.'
+          : 'Tap the button below to inform all regional hospitals immediately.';
+        if(det) det.style.display = 'none';
+        return;
+      }
+
+      if(hero) hero.classList.add('ringing');
+      if(badge) badge.textContent = currentLang === 'te' ? ('✅ ఆసుపత్రులకు సమాచారం అందింది · ' + payload.id) : ('✅ ALL HOSPITALS INFORMED · ' + payload.id);
+      if(title) title.textContent = currentLang === 'te'
+        ? (payload.houseName + ' నుండి ఆసుపత్రి అలర్ట్ పంపబడింది')
+        : ('Hospitals Informed · ' + payload.houseName);
+      if(sub) sub.textContent = currentLang === 'te'
+        ? 'ఖచ్చితమైన ఇంటి నంబర్ మరియు GPS లొకేషన్ అన్ని ఆసుపత్రులకు చేరింది.'
+        : 'Exact House location and buzzer alarm delivered to all hospitals.';
+      if(det){
+        det.style.display = 'grid';
+        det.innerHTML =
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'ఇల్లు' : 'EXACT HOUSE') + '</strong><br>' + payload.houseName + '</div>' +
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'జోన్' : 'HOUSE ZONE') + '</strong><br>' + payload.villageName + '</div>' +
+          '<div class="alarm-detail-box"><strong>GPS</strong><br>' + payload.gps + '</div>' +
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'సమయం' : 'SENT AT') + '</strong><br>' + (payload.time || 'LIVE') + '</div>';
+      }
+    }
+
+    function sendHospitalQrAlertNow(){
+      var loc = getExactMobileHouseLocation(pairedKey || 'house-13');
+      var payload = {
+        active: true,
+        id: 'HOSP-' + Math.floor(1000 + Math.random() * 9000),
+        houseKey: loc.houseKey,
+        houseName: loc.houseName,
+        villageName: loc.villageName,
+        exactAddress: loc.exactAddress,
+        gps: loc.gps,
+        grid: loc.grid,
+        x: loc.x,
+        z: loc.z,
+        injuryType: 'Hospital Alert QR Scan — Immediate Assistance Needed',
+        reporter: loc.houseName + ' (Hospital Alert QR)',
+        acknowledgedBy: null,
+        time: new Date().toLocaleTimeString()
+      };
+      activeHospitalAlert = payload;
+      renderHospitalQrConsole(payload);
+      broadcastHospitalPayload(payload);
+      playSpeakerChime();
+    }
+
+    window.triggerHospitalQrAgain = function(){
+      sendHospitalQrAlertNow();
+    };
+
+    window.clearHospitalQrFromMobile = function(){
+      var payload = { active: false };
+      activeHospitalAlert = payload;
+      renderHospitalQrConsole(payload);
+      broadcastHospitalPayload(payload);
+    };
+
+    function enterHospitalAlertQrView(){
+      isHospitalAlertQrMode = true;
+      document.getElementById('signin-card').style.display = 'none';
+      document.getElementById('connected-console').style.display = 'none';
+      document.getElementById('speaker-mode-console').style.display = 'none';
+      document.getElementById('hospital-alert-qr-console').style.display = 'flex';
+      var bsub = document.getElementById('mob-brand-sub');
+      if(bsub) bsub.textContent = currentLang === 'te' ? 'ఆసుపత్రి అలర్ట్ QR' : 'HOSPITAL ALERT QR';
+      sendHospitalQrAlertNow();
+    }
+
+    window.exitHospitalQrToHouse = function(){
+      isHospitalAlertQrMode = false;
+      document.getElementById('hospital-alert-qr-console').style.display = 'none';
+      document.getElementById('signin-card').style.display = 'flex';
+      applyMobileStaticTranslations();
+    };
+
+    function broadcastFirePayload(payload){
+      try{ localStorage.setItem('waterrrr_fire_sync', JSON.stringify(payload)); }catch(e){}
+      if(bc){ try{ bc.postMessage(payload); }catch(e){} }
+      if(sbFireChannel){
+        try{
+          sbFireChannel.send({ type: 'broadcast', event: 'fire_state', payload: payload || { active: false } });
+        }catch(e){}
+      }
+      if(sbClient && sbAuthReady){
+        sbClient.from('municipal_alerts').insert({
+          title: (payload && payload.active) ? ('🔥 FIRE ALERT: ' + (payload.originLabel || 'Mobile')) : '✓ FIRE RESOLVED / CLEARED',
+          detail: ((payload && payload.active) ? ('Fire erupted from ' + (payload.originLabel || 'Mobile') + ' (' + (payload.cause || 'Mobile Trigger') + ')') : 'Cleared from mobile console.') + ' | FIRE_SYNC:' + JSON.stringify(payload || { active: false }),
+          author: residentName || 'Mobile Alarm'
+        }).then(function(){}).catch(function(){});
+      }
+      if(localApiAvailable){
+        var endpoint = payload && payload.active ? '/api/fire-trigger' : '/api/fire-clear';
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload || {})
+        }).catch(function(){});
+      }
+      fetch('https://ntfy.sh/' + encodeURIComponent(roomId), {
+        method: 'POST',
+        body: JSON.stringify({ type: 'fire_state', ts: Date.now(), payload: payload })
+      }).catch(function(){});
+    }
+
+    window.triggerFireFromThisMobile = function(){
+      armMobileAlarmAudio();
+      var unit = getPairedUnit();
+      if(unit.x === undefined) return;
+      var inRange = getWithin500m(unit.x, unit.z);
+      var alertId = 'FIRE-' + Math.floor(1000 + Math.random() * 9000);
+      var payload = {
+        active: true,
+        id: alertId,
+        x: unit.x,
+        z: unit.z,
+        originLabel: unit.name,
+        houseKey: unit.key,
+        cause: 'Mobile Resident Trigger (' + (residentName || unit.name) + ')',
+        time: new Date().toLocaleTimeString(),
+        notifiedHouses: inRange.map(function(i){ return { key: i.house.key, name: i.house.name, distMeters: i.distMeters }; })
+      };
+      evaluateFireAlert(payload);
+      broadcastFirePayload(payload);
+    };
+
+    window.clearFireFromThisMobile = function(){
+      var payload = { active: false };
+      evaluateFireAlert(payload);
+      broadcastFirePayload(payload);
+    };
+
+    function evaluateFireAlert(alert){
+      activeAlert = alert || null;
+      if(!isSignedIn) return;
+      var unit = getPairedUnit();
+      var hero = document.getElementById('status-hero');
+      var badge = document.getElementById('status-badge');
+      var title = document.getElementById('status-title');
+      var sub = document.getElementById('status-sub');
+      var details = document.getElementById('alarm-details');
+      var mobPhotoBox = document.getElementById('mob-fire-photo-box');
+      var mobPhotoImg = document.getElementById('mob-fire-photo-img');
+      var mobPhotoCap = document.getElementById('mob-fire-photo-caption');
+      var silBtn = document.getElementById('btn-silence-siren');
+      var clearMobBtn = document.getElementById('btn-mob-clear-fire');
+
+      var uName = formatMobUnitName(unit);
+      var originDisplay = (currentLang === 'te' && alert && alert.originLabel)
+        ? String(alert.originLabel).replace('House No. ', 'ఇల్లు నం. ')
+        : ((alert && alert.originLabel) || (currentLang === 'te' ? 'తెలియని ప్రాంతం' : 'Unknown Origin'));
+
+      var isHouse1 = (alert && (alert.houseKey === 'house-1' || String(alert.originLabel).indexOf('House No. 1') !== -1 || String(alert.originLabel).indexOf('House 1') !== -1));
+
+      if(!alert || !alert.active){
+        isCurrentlyRinging = false;
+        silencedAlertId = null;
+        stopSirenLoop();
+        if(!isHospitalRinging) document.body.classList.remove('is-alarm-strobe');
+        hero.classList.remove('ringing');
+        badge.textContent = currentLang === 'te' ? 'స్టాండ్‌బై · 500మీ పర్యవేక్షణ' : 'STANDBY · MONITORING 500M';
+        title.innerHTML = currentLang === 'te'
+          ? (uName + '<br>సురక్షితం &amp; పర్యవేక్షణలో ఉంది')
+          : (uName + '<br>Safe &amp; Monitored');
+        sub.innerHTML = currentLang === 'te'
+          ? ('ప్రస్తుతం ఎటువంటి అగ్నిప్రమాదం లేదు. <strong>' + uName + '</strong> లో గానీ <strong>500మీ పరిధిలోని ఏ సమీప ఇంటిలోనైనా</strong> అగ్నిప్రమాదం జరిగిన వెంటనే ఈ ఫోన్ అలారం మోగిస్తుంది.')
+          : ('No active fire eruption. Whenever fire erupts at <strong>' + uName + '</strong> or <strong>any nearby house within 500m</strong>, this phone will immediately ring.');
+        details.style.display = 'none';
+        if(mobPhotoBox) mobPhotoBox.style.display = 'none';
+        silBtn.style.display = 'none';
+        clearMobBtn.style.display = 'none';
+        return;
+      }
+
+      clearMobBtn.style.display = 'block';
+      var distMeters = null;
+      var inReach = false;
+
+      if(unit.key === 'municipality' || unit.key === 'hospitals'){
+        inReach = true;
+      } else if(unit.x !== undefined){
+        distMeters = Math.round(Math.hypot(unit.x - alert.x, unit.z - alert.z) * 100);
+        inReach = (distMeters <= 500);
+      }
+
+      if(inReach){
+        isCurrentlyRinging = true;
+        hero.classList.add('ringing');
+        badge.textContent = (currentLang === 'te' ? '🚨 అగ్నిప్రమాద అలారం మోగుతోంది · ' : '🚨 FIRE ALARM RINGING · ') + (alert.id || 'LIVE');
+        title.textContent = currentLang === 'te' ? 'అగ్నిప్రమాదం సంభవించింది! వెంటనే బయటకు రండి' : 'FIRE ERUPTED! EVACUATE NOW';
+
+        var distText = (unit.key === 'municipality' || unit.key === 'hospitals')
+          ? (currentLang === 'te' ? 'అత్యవసర డిస్పాచ్ అందింది' : 'EMERGENCY DISPATCH RECEIVED')
+          : (distMeters === 0
+              ? (currentLang === 'te' ? '0మీ — మీ ఇంటి వద్దే అగ్నిప్రమాదం!' : '0m — FIRE ORIGIN AT YOUR HOUSE!')
+              : (currentLang === 'te' ? ('మీ ఇంటి నుండి ' + distMeters + 'మీ దూరంలో (<= 500మీ)') : (distMeters + 'm FROM YOUR HOUSE (<= 500m)')));
+
+        sub.innerHTML = currentLang === 'te'
+          ? ('<strong>' + originDisplay + ' వద్ద అగ్నిప్రమాదం సంభవించింది.</strong><br>' + distText)
+          : ('<strong>Fire has erupted from ' + originDisplay + '.</strong><br>' + distText);
+        details.style.display = 'grid';
+        details.innerHTML =
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'మీ ఇల్లు' : 'YOUR HOUSE') + '</strong><br>' + uName + '</div>' +
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'దూరం' : 'DISTANCE') + '</strong><br>' + (distMeters !== null ? (distMeters + (currentLang === 'te' ? ' మీటర్లు' : ' meters')) : (currentLang === 'te' ? 'కమాండ్ ప్రాధాన్యత' : 'COMMAND PRIORITY')) + '</div>' +
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'ప్రమాద స్థలం' : 'FIRE ORIGIN') + '</strong><br>' + originDisplay + '</div>' +
+          '<div class="alarm-detail-box"><strong>' + (currentLang === 'te' ? 'సమయం' : 'TIME') + '</strong><br>' + (alert.time || 'LIVE') + '</div>';
+
+        if(mobPhotoBox && isHouse1){
+          if(mobPhotoImg) mobPhotoImg.src = './assets/house_1.jpg';
+          if(mobPhotoCap){
+            mobPhotoCap.innerHTML = currentLang === 'te'
+              ? '<span>📍 ఇల్లు నం. 1 · మందడం రోడ్, మల్కాపురం, అమరావతి (GPS ఫోటో)</span><span style="border:1px solid #FFF; padding:1px 5px; border-radius:3px; font-size:0.58rem; background:#FFF; color:#000; font-weight:700;">GPS ధృవీకరణ</span>'
+              : '<span>📍 House No. 1 · Mandadam Road, Malkapuram, Amaravathi (GPS Geotagged)</span><span style="border:1px solid #FFF; padding:1px 5px; border-radius:3px; font-size:0.58rem; background:#FFF; color:#000; font-weight:700;">GPS PHOTO</span>';
+          }
+          mobPhotoBox.style.display = 'block';
+        } else if(mobPhotoBox){
+          mobPhotoBox.style.display = 'none';
+        }
+
+        silBtn.style.display = 'block';
+
+        // Trigger Service Worker Background / Lock Screen Notification
+        triggerLockScreenAlarmNotification(
+          currentLang === 'te' ? ('🚨 అగ్నిప్రమాద అత్యవసర అలారం: ' + originDisplay) : ('🚨 FIRE EMERGENCY ALARM: ' + originDisplay),
+          currentLang === 'te'
+            ? ('అగ్నిప్రమాదం సంభవించింది! ' + distText + ' — వెంటనే ఖాళీ చేసి సురక్షిత ప్రాంతానికి వెళ్ళండి.')
+            : ('Fire erupted at ' + originDisplay + '! (' + distText + ') Evacuate immediately!'),
+          'emerrr-fire-' + (alert.id || 'live'),
+          [1000, 300, 1000, 300, 1000, 300, 1000]
+        );
+
+        if(silencedAlertId !== alert.id){
+          document.body.classList.add('is-alarm-strobe');
+          silBtn.textContent = currentLang === 'te' ? '🔇 ఈ ఫోన్‌లో సైరన్ ఆపండి' : '🔇 SILENCE SIREN ON THIS PHONE';
+          startSirenLoop();
+        } else {
+          if(!isHospitalRinging) document.body.classList.remove('is-alarm-strobe');
+        }
+      } else {
+        isCurrentlyRinging = false;
+        stopSirenLoop();
+        if(!isHospitalRinging) document.body.classList.remove('is-alarm-strobe');
+        hero.classList.remove('ringing');
+        badge.textContent = currentLang === 'te' ? '500మీ వెలుపల · సైరన్ నిశ్శబ్దం' : 'OUTSIDE 500M · SIREN SILENT';
+        title.textContent = currentLang === 'te' ? (uName + ' సురక్షితం (500మీ బయట)') : (uName + ' Safe (Outside 500m)');
+        sub.innerHTML = currentLang === 'te'
+          ? ('<strong>' + originDisplay + '</strong> వద్ద అగ్నిప్రమాదం మీ ఇంటి నుండి <strong>' + distMeters + 'మీ దూరంలో</strong> (&gt; 500మీ) ఉంది. ' + uName + ' కోసం అలారం నిశ్శబ్దంగా ఉంటుంది.')
+          : ('Active fire at <strong>' + originDisplay + '</strong> is <strong>' + distMeters + 'm away</strong> (&gt; 500m reach). Alarm remains silent for ' + uName + '.');
+        details.style.display = 'none';
+        silBtn.style.display = 'none';
+      }
+    }
+
+    var consecutiveLocalApiFailures = 0;
+    var lastLocalApiAttempt = 0;
+
+    function pollServerOnce(){
+      if(!isLocalPrivateHost) return;
+      var now = Date.now();
+      if(consecutiveLocalApiFailures > 5 && now - lastLocalApiAttempt < 2000) return;
+      lastLocalApiAttempt = now;
+
+      var unit = getPairedUnit();
+      var url = '/api/fire-state?deviceId=' + encodeURIComponent(deviceId) +
+        '&houseKey=' + encodeURIComponent(unit.key) +
+        '&houseName=' + encodeURIComponent(unit.name) +
+        '&residentName=' + encodeURIComponent(residentName || 'Resident') +
+        '&audioArmed=' + (audioArmed ? '1' : '0') +
+        '&ringing=' + (isCurrentlyRinging ? '1' : '0');
+
+      fetch(url, { cache: 'no-store' })
+        .then(function(r){
+          if(!r.ok) throw new Error('no local api');
+          return r.json();
+        })
+        .then(function(data){
+          consecutiveLocalApiFailures = 0;
+          localApiAvailable = true;
+          document.getElementById('sync-text').textContent = 'LIVE LAN · ' + unit.name.toUpperCase();
+          evaluateFireAlert(data.fireAlert);
+        })
+        .catch(function(){
+          consecutiveLocalApiFailures++;
+        });
+
+      fetch('/api/hospital-state', { cache: 'no-store' })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(data){
+          if(data && data.hospitalAlert) evaluateHospitalAlert(data.hospitalAlert);
+        })
+        .catch(function(){});
+
+      var spkUrl = '/api/speaker-state?deviceId=' + encodeURIComponent(deviceId) +
+        '&speakerName=' + encodeURIComponent('Mobile Social Speaker') +
+        '&audioArmed=' + (speakerArmed ? '1' : '0') +
+        '&speaking=' + (isSpeakerSpeaking ? '1' : '0');
+      fetch(spkUrl, { cache: 'no-store' })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(data){
+          if(data && data.speakerAlert){
+            if(isSpeakerMode){
+              document.getElementById('sync-text').textContent = 'LIVE LAN · SOCIAL SPEAKER';
+            }
+            evaluateSpeakerBroadcast(data.speakerAlert);
+          }
+        })
+        .catch(function(){});
+    }
+
+    var lastCloudMsgTime = 0;
+    function handleCloudEnvelope(rawMsg){
+      try{
+        var env = typeof rawMsg === 'string' ? JSON.parse(rawMsg) : rawMsg;
+        if(env && env.type === 'fire_state' && env.payload){
+          if(!env.ts || env.ts >= lastCloudMsgTime){
+            if(env.ts) lastCloudMsgTime = env.ts;
+            evaluateFireAlert(env.payload);
+          }
+        } else if(env && env.type === 'speaker_state' && env.payload){
+          evaluateSpeakerBroadcast(env.payload);
+        } else if(env && env.type === 'hospital_state' && env.payload){
+          evaluateHospitalAlert(env.payload);
+        }
+      }catch(e){}
+    }
+
+    function sendCloudHello(){
+      if(!isSignedIn) return;
+      var unit = getPairedUnit();
+      var payload = {
+        type: 'mobile_hello',
+        ts: Date.now(),
+        deviceId: deviceId,
+        houseKey: unit.key,
+        houseName: unit.name,
+        residentName: residentName || 'Resident',
+        audioArmed: !!audioArmed,
+        ringing: !!isCurrentlyRinging
+      };
+      if(sbFireChannel){
+        try{
+          sbFireChannel.send({ type: 'broadcast', event: 'mobile_hello', payload: payload });
+        }catch(e){}
+      }
+      fetch('https://ntfy.sh/' + encodeURIComponent(roomId), {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      }).catch(function(){});
+    }
+
+    var lastSupabaseSyncKey = null;
+    var lastSupabaseHospSyncKey = null;
+    var lastSupabaseSpeakerSyncKey = null;
+    function pollSupabaseFireState(){
+      if(!sbClient || !sbAuthReady) return;
+      sbClient.from('municipal_alerts')
+        .select('id,detail,created_at')
+        .ilike('detail', '%FIRE_SYNC:%')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .then(function(res){
+          if(res.error || !res.data || !res.data.length) return;
+          var row = res.data[0];
+          var det = String(row.detail || '');
+          var idx = det.indexOf('FIRE_SYNC:');
+          if(idx === -1) return;
+          var syncKey = row.id + '|' + det.slice(idx);
+          if(syncKey === lastSupabaseSyncKey) return;
+          lastSupabaseSyncKey = syncKey;
+          try{
+            var p = JSON.parse(det.slice(idx + 10));
+            if(p) evaluateFireAlert(p);
+          }catch(e){}
+        }).catch(function(){});
+
+      sbClient.from('municipal_alerts')
+        .select('id,detail,created_at')
+        .ilike('detail', '%HOSPITAL_SYNC:%')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .then(function(res){
+          if(res.error || !res.data || !res.data.length) return;
+          var row = res.data[0];
+          var det = String(row.detail || '');
+          var idx = det.indexOf('HOSPITAL_SYNC:');
+          if(idx === -1) return;
+          var syncKey = row.id + '|' + det.slice(idx);
+          if(syncKey === lastSupabaseHospSyncKey) return;
+          lastSupabaseHospSyncKey = syncKey;
+          try{
+            var hp = JSON.parse(det.slice(idx + 14));
+            if(hp) evaluateHospitalAlert(hp);
+          }catch(e){}
+        }).catch(function(){});
+
+      sbClient.from('municipal_alerts')
+        .select('id,detail,created_at')
+        .ilike('detail', '%SPEAKER_SYNC:%')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .then(function(res){
+          if(res.error || !res.data || !res.data.length) return;
+          var row = res.data[0];
+          var det = String(row.detail || '');
+          var idx = det.indexOf('SPEAKER_SYNC:');
+          if(idx === -1) return;
+          var syncKey = row.id + '|' + det.slice(idx);
+          if(syncKey === lastSupabaseSpeakerSyncKey) return;
+          lastSupabaseSpeakerSyncKey = syncKey;
+          try{
+            var sp = JSON.parse(det.slice(idx + 13));
+            if(sp) evaluateSpeakerBroadcast(sp);
+          }catch(e){}
+        }).catch(function(){});
+    }
+
+    function initSupabaseFireRelay(){
+      if(!sbClient) return;
+      sbClient.auth.getSession().then(function(r){
+        if(r.data && r.data.session) return r;
+        return sbClient.auth.signInAnonymously();
+      }).then(function(res){
+        if(!res || res.error) return;
+        sbAuthReady = true;
+        var u = getPairedUnit();
+        document.getElementById('sync-text').textContent = 'LIVE SUPABASE · ' + u.name.toUpperCase();
+
+        sbFireChannel = sbClient.channel('emerrr-fire-room-' + roomId, {
+          config: { broadcast: { self: false } }
+        });
+        sbFireChannel
+          .on('broadcast', { event: 'fire_state' }, function(msg){
+            if(msg && msg.payload) evaluateFireAlert(msg.payload);
+          })
+          .on('broadcast', { event: 'hospital_state' }, function(msg){
+            if(msg && msg.payload) evaluateHospitalAlert(msg.payload);
+          })
+          .on('broadcast', { event: 'speaker_state' }, function(msg){
+            if(msg && msg.payload) evaluateSpeakerBroadcast(msg.payload);
+          })
+          .subscribe(function(status){
+            if(status === 'SUBSCRIBED'){
+              sendCloudHello();
+              sendSpeakerCloudHello();
+              if(pendingHospitalQrPayload){
+                var flushP = pendingHospitalQrPayload;
+                pendingHospitalQrPayload = null;
+                broadcastHospitalPayload(flushP);
+              }
+            }
+          });
+
+        sbClient.channel('emerrr-mobile-alerts-db')
+          .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'municipal_alerts' }, function(pl){
+            var det = String((pl.new && pl.new.detail) || '');
+            var idx = det.indexOf('FIRE_SYNC:');
+            if(idx !== -1){
+              try{
+                var parsed = JSON.parse(det.slice(idx + 10));
+                if(parsed) evaluateFireAlert(parsed);
+              }catch(e){}
+            }
+            var hIdx = det.indexOf('HOSPITAL_SYNC:');
+            if(hIdx !== -1){
+              try{
+                var hParsed = JSON.parse(det.slice(hIdx + 14));
+                if(hParsed) evaluateHospitalAlert(hParsed);
+              }catch(e){}
+            }
+            var sIdx = det.indexOf('SPEAKER_SYNC:');
+            if(sIdx !== -1){
+              try{
+                var sParsed = JSON.parse(det.slice(sIdx + 13));
+                if(sParsed) evaluateSpeakerBroadcast(sParsed);
+              }catch(e){}
+            }
+          })
+          .subscribe();
+
+        pollSupabaseFireState();
+        setInterval(pollSupabaseFireState, 2500);
+      }).catch(function(){});
+    }
+
+    function initCloudRelay(){
+      initSupabaseFireRelay();
+      var unit = getPairedUnit();
+      fetch('https://ntfy.sh/' + encodeURIComponent(roomId) + '/json?poll=1&since=10m', { cache: 'no-store' })
+        .then(function(r){ return r.text(); })
+        .then(function(txt){
+          txt.split('\n').forEach(function(line){
+            if(!line.trim()) return;
+            try{
+              var obj = JSON.parse(line);
+              if(obj && obj.message) handleCloudEnvelope(obj.message);
+            }catch(e){}
+          });
+        }).catch(function(){});
+
+      if(typeof EventSource !== 'undefined'){
+        try{
+          var es = new EventSource('https://ntfy.sh/' + encodeURIComponent(roomId) + '/sse');
+          es.onopen = function(){
+            var u = getPairedUnit();
+            document.getElementById('sync-text').textContent = 'LIVE · ' + u.name.toUpperCase();
+          };
+          es.onmessage = function(ev){
+            if(!ev || !ev.data) return;
+            try{
+              var obj = JSON.parse(ev.data);
+              if(obj && obj.message) handleCloudEnvelope(obj.message);
+            }catch(e){}
+          };
+        }catch(e){}
+      }
+      setInterval(function(){
+        sendCloudHello();
+        sendSpeakerCloudHello();
+      }, 3500);
+    }
+
+    if(bc){
+      bc.onmessage = function(ev){
+        if(ev && ev.data) evaluateFireAlert(ev.data);
+      };
+    }
+    if(hospBc){
+      hospBc.onmessage = function(ev){
+        if(ev && ev.data) evaluateHospitalAlert(ev.data);
+      };
+    }
+    if(spkBc){
+      spkBc.onmessage = function(ev){
+        if(ev && ev.data) evaluateSpeakerBroadcast(ev.data);
+      };
+    }
+    window.addEventListener('storage', function(ev){
+      if(ev.key === 'waterrrr_fire_sync' && ev.newValue){
+        try{ evaluateFireAlert(JSON.parse(ev.newValue)); }catch(e){}
+      }
+      if(ev.key === 'emerrr_hospital_sync' && ev.newValue){
+        try{ evaluateHospitalAlert(JSON.parse(ev.newValue)); }catch(e){}
+      }
+      if(ev.key === 'emerrr_speaker_sync' && ev.newValue){
+        try{ evaluateSpeakerBroadcast(JSON.parse(ev.newValue)); }catch(e){}
+      }
+    });
+
+    populateSignInSelect();
+    applyMobileStaticTranslations();
+    try{
+      var saved = localStorage.getItem('waterrrr_fire_sync');
+      if(saved) activeAlert = JSON.parse(saved);
+      var savedHosp = localStorage.getItem('emerrr_hospital_sync');
+      if(savedHosp) activeHospitalAlert = JSON.parse(savedHosp);
+      var savedSpk = localStorage.getItem('emerrr_speaker_sync');
+      if(savedSpk) activeSpeakerAlert = JSON.parse(savedSpk);
+
+      if(isHospitalAlertQrMode){
+        enterHospitalAlertQrView();
+      } else if(isSpeakerMode){
+        enterSpeakerModeView();
+        if(!initialSpeakerMsg && activeSpeakerAlert && activeSpeakerAlert.active){
+          evaluateSpeakerBroadcast(activeSpeakerAlert);
+        }
+      } else {
+        // Auto-restore sign-in if previously signed in to the exact same QR house (and no different ?house= param forced)
+        var prevSigned = localStorage.getItem('waterrrr_mob_signed_in') === '1';
+        var prevHouse = localStorage.getItem('waterrrr_mob_house');
+        if(prevSigned && prevHouse && (!qrHouseParam || qrHouseParam === prevHouse)){
+          pairedKey = prevHouse;
+          document.getElementById('signin-house-select').value = pairedKey;
+          enterConnectedView();
+        }
+      }
+    }catch(e){}
+
+    if(localApiAvailable){
+      pollServerOnce();
+      setInterval(pollServerOnce, 450);
+    }
+    initCloudRelay();
+  </script>
+</body>
+</html>

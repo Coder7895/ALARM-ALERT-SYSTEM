@@ -1,0 +1,1122 @@
+[
+  {
+    "houseNumber": 1,
+    "houseKey": "house-1",
+    "houseName": "House No. 1",
+    "email": "house1.emerrr@gmail.com",
+    "aliasEmails": [
+      "house1@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house1@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Prabakar",
+    "systemId": "CIT-H1-2026",
+    "coords": {
+      "x": -8.5,
+      "z": 6
+    },
+    "notes": "🚨 Hotspot Zone #1 · Well #3 Compromised · Geotagged Photo Verified",
+    "username": "House 1 Prabakar",
+    "aliasUsernames": [
+      "house 1 prabakar",
+      "house 1",
+      "house1",
+      "house-1",
+      "h1",
+      "prabakar",
+      "house1.emerrr@gmail.com",
+      "house1@gmail.com"
+    ],
+    "loginDisplay": "Username: House 1 Prabakar · Pass: 1111"
+  },
+  {
+    "houseNumber": 2,
+    "houseKey": "house-2",
+    "houseName": "House No. 2",
+    "email": "house2.emerrr@gmail.com",
+    "aliasEmails": [
+      "house2@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house2@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Ramesh",
+    "systemId": "CIT-H2-2026",
+    "coords": {
+      "x": 8.6,
+      "z": -5.8
+    },
+    "notes": "Elevated Typhoid Watchlist",
+    "username": "House 2 Ramesh",
+    "aliasUsernames": [
+      "house 2 ramesh",
+      "house 2",
+      "house2",
+      "house-2",
+      "h2",
+      "ramesh",
+      "house2.emerrr@gmail.com",
+      "house2@gmail.com"
+    ],
+    "loginDisplay": "Username: House 2 Ramesh · Pass: 1111"
+  },
+  {
+    "houseNumber": 3,
+    "houseKey": "house-3",
+    "houseName": "House No. 3",
+    "email": "house3.emerrr@gmail.com",
+    "aliasEmails": [
+      "house3@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house3@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Suresh",
+    "systemId": "CIT-H3-2026",
+    "coords": {
+      "x": -9.4,
+      "z": -3.1
+    },
+    "notes": "Acute Diarrhea Cluster",
+    "username": "House 3 Suresh",
+    "aliasUsernames": [
+      "house 3 suresh",
+      "house 3",
+      "house3",
+      "house-3",
+      "h3",
+      "suresh",
+      "house3.emerrr@gmail.com",
+      "house3@gmail.com"
+    ],
+    "loginDisplay": "Username: House 3 Suresh · Pass: 1111"
+  },
+  {
+    "houseNumber": 4,
+    "houseKey": "house-4",
+    "houseName": "House No. 4",
+    "email": "house4.emerrr@gmail.com",
+    "aliasEmails": [
+      "house4@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house4@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Venkatesh",
+    "systemId": "CIT-H4-2026",
+    "coords": {
+      "x": 6,
+      "z": 7.7
+    },
+    "notes": "Enteric Spike Sector",
+    "username": "House 4 Venkatesh",
+    "aliasUsernames": [
+      "house 4 venkatesh",
+      "house 4",
+      "house4",
+      "house-4",
+      "h4",
+      "venkatesh",
+      "house4.emerrr@gmail.com",
+      "house4@gmail.com"
+    ],
+    "loginDisplay": "Username: House 4 Venkatesh · Pass: 1111"
+  },
+  {
+    "houseNumber": 5,
+    "houseKey": "house-5",
+    "houseName": "House No. 5",
+    "email": "house5.emerrr@gmail.com",
+    "aliasEmails": [
+      "house5@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house5@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Lakshmi",
+    "systemId": "CIT-H5-2026",
+    "coords": {
+      "x": -5.2,
+      "z": -9
+    },
+    "notes": "Cholera Warning Cluster",
+    "username": "House 5 Lakshmi",
+    "aliasUsernames": [
+      "house 5 lakshmi",
+      "house 5",
+      "house5",
+      "house-5",
+      "h5",
+      "lakshmi",
+      "house5.emerrr@gmail.com",
+      "house5@gmail.com"
+    ],
+    "loginDisplay": "Username: House 5 Lakshmi · Pass: 1111"
+  },
+  {
+    "houseNumber": 6,
+    "houseKey": "house-6",
+    "houseName": "House No. 6",
+    "email": "house6.emerrr@gmail.com",
+    "aliasEmails": [
+      "house6@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house6@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Srinivas",
+    "systemId": "CIT-H6-2026",
+    "coords": {
+      "x": 10.6,
+      "z": 1.9
+    },
+    "notes": "Typhoid Alert Perimeter",
+    "username": "House 6 Srinivas",
+    "aliasUsernames": [
+      "house 6 srinivas",
+      "house 6",
+      "house6",
+      "house-6",
+      "h6",
+      "srinivas",
+      "house6.emerrr@gmail.com",
+      "house6@gmail.com"
+    ],
+    "loginDisplay": "Username: House 6 Srinivas · Pass: 1111"
+  },
+  {
+    "houseNumber": 7,
+    "houseKey": "house-7",
+    "houseName": "House No. 7",
+    "email": "house7.emerrr@gmail.com",
+    "aliasEmails": [
+      "house7@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house7@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Anjaneyulu",
+    "systemId": "CIT-H7-2026",
+    "coords": {
+      "x": -3.4,
+      "z": 9.4
+    },
+    "notes": "Turbidity 34 NTU Sensor Link",
+    "username": "House 7 Anjaneyulu",
+    "aliasUsernames": [
+      "house 7 anjaneyulu",
+      "house 7",
+      "house7",
+      "house-7",
+      "h7",
+      "anjaneyulu",
+      "house7.emerrr@gmail.com",
+      "house7@gmail.com"
+    ],
+    "loginDisplay": "Username: House 7 Anjaneyulu · Pass: 1111"
+  },
+  {
+    "houseNumber": 8,
+    "houseKey": "house-8",
+    "houseName": "House No. 8",
+    "email": "house8.emerrr@gmail.com",
+    "aliasEmails": [
+      "house8@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house8@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Nagaraju",
+    "systemId": "CIT-H8-2026",
+    "coords": {
+      "x": 3.6,
+      "z": -9.9
+    },
+    "notes": "Gastro Warning Zone",
+    "username": "House 8 Nagaraju",
+    "aliasUsernames": [
+      "house 8 nagaraju",
+      "house 8",
+      "house8",
+      "house-8",
+      "h8",
+      "nagaraju",
+      "house8.emerrr@gmail.com",
+      "house8@gmail.com"
+    ],
+    "loginDisplay": "Username: House 8 Nagaraju · Pass: 1111"
+  },
+  {
+    "houseNumber": 9,
+    "houseKey": "house-9",
+    "houseName": "House No. 9",
+    "email": "house9.emerrr@gmail.com",
+    "aliasEmails": [
+      "house9@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house9@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Satyanarayana",
+    "systemId": "CIT-H9-2026",
+    "coords": {
+      "x": 8.5,
+      "z": -10.3
+    },
+    "notes": "Enteric Vector Watchlist",
+    "username": "House 9 Satyanarayana",
+    "aliasUsernames": [
+      "house 9 satyanarayana",
+      "house 9",
+      "house9",
+      "house-9",
+      "h9",
+      "satyanarayana",
+      "house9.emerrr@gmail.com",
+      "house9@gmail.com"
+    ],
+    "loginDisplay": "Username: House 9 Satyanarayana · Pass: 1111"
+  },
+  {
+    "houseNumber": 10,
+    "houseKey": "house-10",
+    "houseName": "House No. 10",
+    "email": "house10.emerrr@gmail.com",
+    "aliasEmails": [
+      "house10@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house10@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Appa Rao",
+    "systemId": "CIT-H10-2026",
+    "coords": {
+      "x": -11.5,
+      "z": 2.2
+    },
+    "notes": "West Perimeter Watchlist",
+    "username": "House 10 Appa Rao",
+    "aliasUsernames": [
+      "house 10 appa rao",
+      "house 10",
+      "house10",
+      "house-10",
+      "h10",
+      "appa rao",
+      "house10.emerrr@gmail.com",
+      "house10@gmail.com"
+    ],
+    "loginDisplay": "Username: House 10 Appa Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 11,
+    "houseKey": "house-11",
+    "houseName": "House No. 11",
+    "email": "house11.emerrr@gmail.com",
+    "aliasEmails": [
+      "house11@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house11@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Mallikarjun",
+    "systemId": "CIT-H11-2026",
+    "coords": {
+      "x": 7.8,
+      "z": 4.4
+    },
+    "notes": "Moderate Runoff Zone",
+    "username": "House 11 Mallikarjun",
+    "aliasUsernames": [
+      "house 11 mallikarjun",
+      "house 11",
+      "house11",
+      "house-11",
+      "h11",
+      "mallikarjun",
+      "house11.emerrr@gmail.com",
+      "house11@gmail.com"
+    ],
+    "loginDisplay": "Username: House 11 Mallikarjun · Pass: 1111"
+  },
+  {
+    "houseNumber": 12,
+    "houseKey": "house-12",
+    "houseName": "House No. 12",
+    "email": "house12.emerrr@gmail.com",
+    "aliasEmails": [
+      "house12@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house12@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Koteswara Rao",
+    "systemId": "CIT-H12-2026",
+    "coords": {
+      "x": -10.6,
+      "z": -8.1
+    },
+    "notes": "Moderate Risk Zone",
+    "username": "House 12 Koteswara Rao",
+    "aliasUsernames": [
+      "house 12 koteswara rao",
+      "house 12",
+      "house12",
+      "house-12",
+      "h12",
+      "koteswara rao",
+      "house12.emerrr@gmail.com",
+      "house12@gmail.com"
+    ],
+    "loginDisplay": "Username: House 12 Koteswara Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 13,
+    "houseKey": "house-13",
+    "houseName": "House No. 13",
+    "email": "house13.emerrr@gmail.com",
+    "aliasEmails": [
+      "house13@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house13@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "K. Venkatesh",
+    "systemId": "CIT-H13-270",
+    "coords": {
+      "x": -4.8,
+      "z": 4
+    },
+    "notes": "Near Main Arterial Road · Primary Citizen Demo House",
+    "username": "House 13 Venkatesh",
+    "aliasUsernames": [
+      "house 13 venkatesh",
+      "house 13",
+      "house13",
+      "house-13",
+      "h13",
+      "venkatesh",
+      "house13.emerrr@gmail.com",
+      "house13@gmail.com"
+    ],
+    "loginDisplay": "Username: House 13 Venkatesh · Pass: 1111"
+  },
+  {
+    "houseNumber": 14,
+    "houseKey": "house-14",
+    "houseName": "House No. 14",
+    "email": "house14.emerrr@gmail.com",
+    "aliasEmails": [
+      "house14@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house14@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Subba Rao",
+    "systemId": "CIT-H14-2026",
+    "coords": {
+      "x": 11,
+      "z": -2.2
+    },
+    "notes": "East Sector Monitored",
+    "username": "House 14 Subba Rao",
+    "aliasUsernames": [
+      "house 14 subba rao",
+      "house 14",
+      "house14",
+      "house-14",
+      "h14",
+      "subba rao",
+      "house14.emerrr@gmail.com",
+      "house14@gmail.com"
+    ],
+    "loginDisplay": "Username: House 14 Subba Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 15,
+    "houseKey": "house-15",
+    "houseName": "House No. 15",
+    "email": "house15.emerrr@gmail.com",
+    "aliasEmails": [
+      "house15@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house15@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Ramakrishna",
+    "systemId": "CIT-H15-2026",
+    "coords": {
+      "x": -2.2,
+      "z": -5.6
+    },
+    "notes": "Early Spike Inflow",
+    "username": "House 15 Ramakrishna",
+    "aliasUsernames": [
+      "house 15 ramakrishna",
+      "house 15",
+      "house15",
+      "house-15",
+      "h15",
+      "ramakrishna",
+      "house15.emerrr@gmail.com",
+      "house15@gmail.com"
+    ],
+    "loginDisplay": "Username: House 15 Ramakrishna · Pass: 1111"
+  },
+  {
+    "houseNumber": 16,
+    "houseKey": "house-16",
+    "houseName": "House No. 16",
+    "email": "house16.emerrr@gmail.com",
+    "aliasEmails": [
+      "house16@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house16@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Narayana Murthy",
+    "systemId": "CIT-H16-2026",
+    "coords": {
+      "x": 5.2,
+      "z": -3.5
+    },
+    "notes": "Central Monitored House",
+    "username": "House 16 Narayana Murthy",
+    "aliasUsernames": [
+      "house 16 narayana murthy",
+      "house 16",
+      "house16",
+      "house-16",
+      "h16",
+      "narayana murthy",
+      "house16.emerrr@gmail.com",
+      "house16@gmail.com"
+    ],
+    "loginDisplay": "Username: House 16 Narayana Murthy · Pass: 1111"
+  },
+  {
+    "houseNumber": 17,
+    "houseKey": "house-17",
+    "houseName": "House No. 17",
+    "email": "house17.emerrr@gmail.com",
+    "aliasEmails": [
+      "house17@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house17@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Govinda Rajulu",
+    "systemId": "CIT-H17-2026",
+    "coords": {
+      "x": -6.9,
+      "z": 1
+    },
+    "notes": "West Mid-Sector Monitored",
+    "username": "House 17 Govinda Rajulu",
+    "aliasUsernames": [
+      "house 17 govinda rajulu",
+      "house 17",
+      "house17",
+      "house-17",
+      "h17",
+      "govinda rajulu",
+      "house17.emerrr@gmail.com",
+      "house17@gmail.com"
+    ],
+    "loginDisplay": "Username: House 17 Govinda Rajulu · Pass: 1111"
+  },
+  {
+    "houseNumber": 18,
+    "houseKey": "house-18",
+    "houseName": "House No. 18",
+    "email": "house18.emerrr@gmail.com",
+    "aliasEmails": [
+      "house18@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house18@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Chandra Sekhar",
+    "systemId": "CIT-H18-2026",
+    "coords": {
+      "x": 2.8,
+      "z": 6
+    },
+    "notes": "North-East Corridor",
+    "username": "House 18 Chandra Sekhar",
+    "aliasUsernames": [
+      "house 18 chandra sekhar",
+      "house 18",
+      "house18",
+      "house-18",
+      "h18",
+      "chandra sekhar",
+      "house18.emerrr@gmail.com",
+      "house18@gmail.com"
+    ],
+    "loginDisplay": "Username: House 18 Chandra Sekhar · Pass: 1111"
+  },
+  {
+    "houseNumber": 19,
+    "houseKey": "house-19",
+    "houseName": "House No. 19",
+    "email": "house19.emerrr@gmail.com",
+    "aliasEmails": [
+      "house19@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house19@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Venkata Ramana",
+    "systemId": "CIT-H19-2026",
+    "coords": {
+      "x": 0.2,
+      "z": -9
+    },
+    "notes": "South Lake Inflow Watch",
+    "username": "House 19 Venkata Ramana",
+    "aliasUsernames": [
+      "house 19 venkata ramana",
+      "house 19",
+      "house19",
+      "house-19",
+      "h19",
+      "venkata ramana",
+      "house19.emerrr@gmail.com",
+      "house19@gmail.com"
+    ],
+    "loginDisplay": "Username: House 19 Venkata Ramana · Pass: 1111"
+  },
+  {
+    "houseNumber": 20,
+    "houseKey": "house-20",
+    "houseName": "House No. 20",
+    "email": "house20.emerrr@gmail.com",
+    "aliasEmails": [
+      "house20@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house20@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Samba Siva Rao",
+    "systemId": "CIT-H20-2026",
+    "coords": {
+      "x": 11.8,
+      "z": 6.5
+    },
+    "notes": "East Outer Perimeter",
+    "username": "House 20 Samba Siva Rao",
+    "aliasUsernames": [
+      "house 20 samba siva rao",
+      "house 20",
+      "house20",
+      "house-20",
+      "h20",
+      "samba siva rao",
+      "house20.emerrr@gmail.com",
+      "house20@gmail.com"
+    ],
+    "loginDisplay": "Username: House 20 Samba Siva Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 21,
+    "houseKey": "house-21",
+    "houseName": "House No. 21",
+    "email": "house21.emerrr@gmail.com",
+    "aliasEmails": [
+      "house21@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house21@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Balaraju",
+    "systemId": "CIT-H21-2026",
+    "coords": {
+      "x": -7.8,
+      "z": -11
+    },
+    "notes": "South-West Boundary",
+    "username": "House 21 Balaraju",
+    "aliasUsernames": [
+      "house 21 balaraju",
+      "house 21",
+      "house21",
+      "house-21",
+      "h21",
+      "balaraju",
+      "house21.emerrr@gmail.com",
+      "house21@gmail.com"
+    ],
+    "loginDisplay": "Username: House 21 Balaraju · Pass: 1111"
+  },
+  {
+    "houseNumber": 22,
+    "houseKey": "house-22",
+    "houseName": "House No. 22",
+    "email": "house22.emerrr@gmail.com",
+    "aliasEmails": [
+      "house22@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house22@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Thirupathi Rao",
+    "systemId": "CIT-H22-2026",
+    "coords": {
+      "x": 4.3,
+      "z": 10.3
+    },
+    "notes": "North Sector Safe / Controlled",
+    "username": "House 22 Thirupathi Rao",
+    "aliasUsernames": [
+      "house 22 thirupathi rao",
+      "house 22",
+      "house22",
+      "house-22",
+      "h22",
+      "thirupathi rao",
+      "house22.emerrr@gmail.com",
+      "house22@gmail.com"
+    ],
+    "loginDisplay": "Username: House 22 Thirupathi Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 23,
+    "houseKey": "house-23",
+    "houseName": "House No. 23",
+    "email": "house23.emerrr@gmail.com",
+    "aliasEmails": [
+      "house23@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house23@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Jagadeesh",
+    "systemId": "CIT-H23-2026",
+    "coords": {
+      "x": -1.7,
+      "z": 12
+    },
+    "notes": "North Peak Boundary",
+    "username": "House 23 Jagadeesh",
+    "aliasUsernames": [
+      "house 23 jagadeesh",
+      "house 23",
+      "house23",
+      "house-23",
+      "h23",
+      "jagadeesh",
+      "house23.emerrr@gmail.com",
+      "house23@gmail.com"
+    ],
+    "loginDisplay": "Username: House 23 Jagadeesh · Pass: 1111"
+  },
+  {
+    "houseNumber": 24,
+    "houseKey": "house-24",
+    "houseName": "House No. 24",
+    "email": "house24.emerrr@gmail.com",
+    "aliasEmails": [
+      "house24@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house24@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Mohan Rao",
+    "systemId": "CIT-H24-2026",
+    "coords": {
+      "x": 9.7,
+      "z": 9.4
+    },
+    "notes": "North-East Boundary",
+    "username": "House 24 Mohan Rao",
+    "aliasUsernames": [
+      "house 24 mohan rao",
+      "house 24",
+      "house24",
+      "house-24",
+      "h24",
+      "mohan rao",
+      "house24.emerrr@gmail.com",
+      "house24@gmail.com"
+    ],
+    "loginDisplay": "Username: House 24 Mohan Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 25,
+    "houseKey": "house-25",
+    "houseName": "House No. 25",
+    "email": "house25.emerrr@gmail.com",
+    "aliasEmails": [
+      "house25@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house25@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Siva Kumar",
+    "systemId": "CIT-H25-2026",
+    "coords": {
+      "x": -12.2,
+      "z": -4.4
+    },
+    "notes": "West Far Boundary",
+    "username": "House 25 Siva Kumar",
+    "aliasUsernames": [
+      "house 25 siva kumar",
+      "house 25",
+      "house25",
+      "house-25",
+      "h25",
+      "siva kumar",
+      "house25.emerrr@gmail.com",
+      "house25@gmail.com"
+    ],
+    "loginDisplay": "Username: House 25 Siva Kumar · Pass: 1111"
+  },
+  {
+    "houseNumber": 26,
+    "houseKey": "house-26",
+    "houseName": "House No. 26",
+    "email": "house26.emerrr@gmail.com",
+    "aliasEmails": [
+      "house26@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house26@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Ranga Rao",
+    "systemId": "CIT-H26-2026",
+    "coords": {
+      "x": 1.4,
+      "z": -12
+    },
+    "notes": "South Boundary Point",
+    "username": "House 26 Ranga Rao",
+    "aliasUsernames": [
+      "house 26 ranga rao",
+      "house 26",
+      "house26",
+      "house-26",
+      "h26",
+      "ranga rao",
+      "house26.emerrr@gmail.com",
+      "house26@gmail.com"
+    ],
+    "loginDisplay": "Username: House 26 Ranga Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 27,
+    "houseKey": "house-27",
+    "houseName": "House No. 27",
+    "email": "house27.emerrr@gmail.com",
+    "aliasEmails": [
+      "house27@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house27@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Bhaskara Rao",
+    "systemId": "CIT-H27-2026",
+    "coords": {
+      "x": -5.6,
+      "z": 11.9
+    },
+    "notes": "North-West High Ridge",
+    "username": "House 27 Bhaskara Rao",
+    "aliasUsernames": [
+      "house 27 bhaskara rao",
+      "house 27",
+      "house27",
+      "house-27",
+      "h27",
+      "bhaskara rao",
+      "house27.emerrr@gmail.com",
+      "house27@gmail.com"
+    ],
+    "loginDisplay": "Username: House 27 Bhaskara Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 28,
+    "houseKey": "house-28",
+    "houseName": "House No. 28",
+    "email": "house28.emerrr@gmail.com",
+    "aliasEmails": [
+      "house28@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house28@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Prasad Babu",
+    "systemId": "CIT-H28-2026",
+    "coords": {
+      "x": 11.4,
+      "z": -7.2
+    },
+    "notes": "South-East Far Boundary",
+    "username": "House 28 Prasad Babu",
+    "aliasUsernames": [
+      "house 28 prasad babu",
+      "house 28",
+      "house28",
+      "house-28",
+      "h28",
+      "prasad babu",
+      "house28.emerrr@gmail.com",
+      "house28@gmail.com"
+    ],
+    "loginDisplay": "Username: House 28 Prasad Babu · Pass: 1111"
+  },
+  {
+    "houseNumber": 29,
+    "houseKey": "house-29",
+    "houseName": "House No. 29",
+    "email": "house29.emerrr@gmail.com",
+    "aliasEmails": [
+      "house29@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house29@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Vijay Kumar",
+    "systemId": "CIT-H29-2026",
+    "coords": {
+      "x": -9.5,
+      "z": 9.5
+    },
+    "notes": "North-West RO Filtration Grid",
+    "username": "House 29 Vijay Kumar",
+    "aliasUsernames": [
+      "house 29 vijay kumar",
+      "house 29",
+      "house29",
+      "house-29",
+      "h29",
+      "vijay kumar",
+      "house29.emerrr@gmail.com",
+      "house29@gmail.com"
+    ],
+    "loginDisplay": "Username: House 29 Vijay Kumar · Pass: 1111"
+  },
+  {
+    "houseNumber": 30,
+    "houseKey": "house-30",
+    "houseName": "House No. 30",
+    "email": "house30.emerrr@gmail.com",
+    "aliasEmails": [
+      "house30@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house30@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Radha Krishna",
+    "systemId": "CIT-H30-2026",
+    "coords": {
+      "x": -7.8,
+      "z": -6
+    },
+    "notes": "Purified Safe Zone",
+    "username": "House 30 Radha Krishna",
+    "aliasUsernames": [
+      "house 30 radha krishna",
+      "house 30",
+      "house30",
+      "house-30",
+      "h30",
+      "radha krishna",
+      "house30.emerrr@gmail.com",
+      "house30@gmail.com"
+    ],
+    "loginDisplay": "Username: House 30 Radha Krishna · Pass: 1111"
+  },
+  {
+    "houseNumber": 31,
+    "houseKey": "house-31",
+    "houseName": "House No. 31",
+    "email": "house31.emerrr@gmail.com",
+    "aliasEmails": [
+      "house31@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house31@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Visweswara Rao",
+    "systemId": "CIT-H31-2026",
+    "coords": {
+      "x": 5.9,
+      "z": -12.1
+    },
+    "notes": "Pristine Deep Aquifer Grid",
+    "username": "House 31 Visweswara Rao",
+    "aliasUsernames": [
+      "house 31 visweswara rao",
+      "house 31",
+      "house31",
+      "house-31",
+      "h31",
+      "visweswara rao",
+      "house31.emerrr@gmail.com",
+      "house31@gmail.com"
+    ],
+    "loginDisplay": "Username: House 31 Visweswara Rao · Pass: 1111"
+  },
+  {
+    "houseNumber": 32,
+    "houseKey": "house-32",
+    "houseName": "House No. 32",
+    "email": "house32.emerrr@gmail.com",
+    "aliasEmails": [
+      "house32@gmail.com"
+    ],
+    "password": "1111",
+    "altPasswords": [
+      "house32@123",
+      "emerrr2026",
+      "water123"
+    ],
+    "role": "citizen",
+    "residentName": "Murali Krishna",
+    "systemId": "CIT-H32-2026",
+    "coords": {
+      "x": 0.3,
+      "z": 9.7
+    },
+    "notes": "Reference Spring & Clean Benchmark",
+    "username": "House 32 Murali Krishna",
+    "aliasUsernames": [
+      "house 32 murali krishna",
+      "house 32",
+      "house32",
+      "house-32",
+      "h32",
+      "murali krishna",
+      "house32.emerrr@gmail.com",
+      "house32@gmail.com"
+    ],
+    "loginDisplay": "Username: House 32 Murali Krishna · Pass: 1111"
+  }
+]
