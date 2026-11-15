@@ -3,6 +3,7 @@
   "outputDirectory": "frontend",
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/mobile", "destination": "/mobile.html" }
   ]
 }

@@ -854,9 +854,12 @@ class SociothonHandler(http.server.SimpleHTTPRequestHandler):
 
 
 # Top-level exports for Vercel / serverless runtime entrypoints
-handler = SociothonHandler
-app = SociothonHandler
-application = SociothonHandler
+class handler(SociothonHandler):
+    pass
+
+Handler = handler
+app = handler
+application = handler
 
 
 if __name__ == "__main__":

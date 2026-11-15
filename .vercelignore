@@ -1,7 +1,5 @@
-# Exclude backend and python files from Vercel static build
-backend/
-*.py
-requirements.txt
-__pycache__/
+# Exclude non-production assets
 posters/
 author_photo.jpg
+__pycache__/
+*.pyc
