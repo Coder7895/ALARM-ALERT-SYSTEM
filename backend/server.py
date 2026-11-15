@@ -324,6 +324,11 @@ class SociothonHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=ROOT_DIR, **kwargs)
 
+# Top-level exports for Vercel / serverless runtime entrypoints
+handler = SociothonHandler
+app = SociothonHandler
+application = SociothonHandler
+
     def log_message(self, format, *args):
         msg = format % args
         # Log all API and stream requests visibly to the terminal
